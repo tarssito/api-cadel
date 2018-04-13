@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +32,7 @@ public class Turma implements Serializable {
 	@JoinColumn(name="curso_id")
 	private Curso curso;
 
-	@OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "turma")
 	private List<Aluno> alunos = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="turmas")

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ public class Disciplina implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 100)
 	private String nome;
 
 	@Column(nullable = false)
@@ -33,7 +32,7 @@ public class Disciplina implements Serializable {
 	@ManyToMany(mappedBy = "disciplinas")
 	private List<Curso> cursos = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplina")
+	@OneToMany(mappedBy = "disciplina")
 	private List<Aula> aulas = new ArrayList<>();
 
 	public Disciplina() {

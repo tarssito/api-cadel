@@ -3,7 +3,6 @@ package br.com.apicadel.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,7 +20,7 @@ public class Professor extends Pessoa {
 	@JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
 	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
+	@OneToMany(mappedBy = "professor")
 	private List<Aula> aulas = new ArrayList<>();
 
 	@Column(columnDefinition = "int default 10")

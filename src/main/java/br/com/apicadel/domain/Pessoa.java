@@ -23,13 +23,13 @@ public abstract class Pessoa implements Serializable {
 	@Column(nullable = false, length = 100)
 	private String nome;
 	
-	@Column(nullable = false, unique = true, length = 11)
+	@Column(nullable = false)
 	private String cpf;
 	
 	@Column(nullable = false, unique = true, length = 25)
 	private String matricula;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String email;
 	
 	@Enumerated(EnumType.STRING)
