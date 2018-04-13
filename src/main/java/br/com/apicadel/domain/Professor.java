@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import br.com.apicadel.domain.enums.Sexo;
 
@@ -18,16 +18,12 @@ public class Professor extends Pessoa {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToMany
-	@JoinTable(
-			name = "professor_disciplina", 
-			joinColumns = @JoinColumn(name = "professor_id"), 
-			inverseJoinColumns = @JoinColumn(name = "disciplina_id")
-	)
+	@JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
 	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "professor")
-	private Aula aula;
-	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
+	private List<Aula> aulas = new ArrayList<>();
+
 	@Column(columnDefinition = "int default 10")
 	private Integer notificacaoEmail;
 
@@ -58,6 +54,10 @@ public class Professor extends Pessoa {
 
 	public List<Turma> getTurmas() {
 		return turmas;
+	}
+
+	public List<Aula> getAulas() {
+		return aulas;
 	}
 
 }

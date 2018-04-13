@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -30,11 +30,11 @@ public class Aula implements Serializable {
 	private Date horaAbertura;
 	private Date horaFechamento;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "professor_id")
 	private Professor professor;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "disciplina_id")
 	private Disciplina disciplina;
 

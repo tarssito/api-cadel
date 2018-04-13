@@ -11,31 +11,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Disciplina implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, unique = true)
 	private String nome;
-	
+
 	@Column(nullable = false)
 	private int cargaHoraria;
 
-	@ManyToMany(mappedBy="disciplinas")
+	@ManyToMany(mappedBy = "disciplinas")
 	private List<Professor> professores = new ArrayList<>();
-	
-	@ManyToMany(mappedBy="disciplinas")
+
+	@ManyToMany(mappedBy = "disciplinas")
 	private List<Curso> cursos = new ArrayList<>();
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "disciplina")
-	private Aula aula;
-	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "disciplina")
+	private List<Aula> aulas = new ArrayList<>();
+
 	public Disciplina() {
 	}
 
@@ -76,6 +76,10 @@ public class Disciplina implements Serializable {
 
 	public List<Curso> getCursos() {
 		return cursos;
+	}
+
+	public List<Aula> getAulas() {
+		return aulas;
 	}
 
 	@Override
