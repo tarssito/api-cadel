@@ -37,7 +37,7 @@ public class CursoResource {
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CursoDTO objDTO) {
 		Curso obj = service.fromDTO(objDTO);
-		obj = service.insert(obj);
+		obj = service.save(obj);
 		/* Retorna na url o id inserido (cursos/{id}) */
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -47,7 +47,7 @@ public class CursoResource {
 	public ResponseEntity<Void> update(@Valid @RequestBody CursoDTO objDTO, @PathVariable Long id) {
 		Curso obj = service.fromDTO(objDTO);
 		obj.setId(id);
-		obj = service.update(obj);
+		obj = service.save(obj);
 		return ResponseEntity.noContent().build();
 	}
 
