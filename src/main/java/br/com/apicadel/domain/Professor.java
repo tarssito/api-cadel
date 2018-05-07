@@ -10,14 +10,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import br.com.apicadel.domain.enums.Sexo;
+import br.com.apicadel.domain.enums.Perfil;
 
 @Entity
 public class Professor extends Pessoa {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToMany
-	@JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
+	@JoinTable(name = "professor_disciplina", 
+		joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id")
+	)
 	private List<Disciplina> disciplinas = new ArrayList<>();
 
 	@OneToMany(mappedBy = "professor")
@@ -27,16 +29,22 @@ public class Professor extends Pessoa {
 	private Integer notificacaoEmail;
 
 	@ManyToMany
-	@JoinTable(name = "professor_turma", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "turma_id"))
+	@JoinTable(name = "professor_turma", 
+		joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "turma_id")
+	)
 	private List<Turma> turmas = new ArrayList<>();
 
+	@Column(name = "perfil_id", nullable = false)
+	private Integer perfil;
+	
 	public Professor() {
 	}
 
-	public Professor(Long id, String nome, String cpf, String matricula, String email, Sexo sexo, boolean ativo,
-			Integer notificacaoEmail) {
+	public Professor(Long id, String nome, String cpf, String matricula, String email, String sexo, boolean ativo,
+			Integer notificacaoEmail, Perfil perfil) {
 		super(id, nome, cpf, matricula, email, sexo);
 		this.notificacaoEmail = notificacaoEmail;
+		this.perfil = perfil.getCod();
 	}
 
 	public Integer getNotificacaoEmail() {
@@ -57,6 +65,14 @@ public class Professor extends Pessoa {
 
 	public List<Aula> getAulas() {
 		return aulas;
+	}
+
+	public Integer getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil.getCod();
 	}
 
 }

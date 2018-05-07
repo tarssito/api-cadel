@@ -5,36 +5,50 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
-import br.com.apicadel.domain.enums.Sexo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Aluno extends Pessoa {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
-	@JoinColumn(name="turma_id")
-	private Turma turma;
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "aluno_disciplina", 
+		joinColumns = @JoinColumn(name = "aluno_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id")
+	)
+	private List<Disciplina> disciplinas = new ArrayList<>();
 
-	@ManyToMany(mappedBy="alunos")
+	@ManyToMany(mappedBy = "alunos")
+	private List<Turma> trumas = new ArrayList<>();
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "alunos")
 	private List<Aula> frequencias = new ArrayList<>();
 
 	public Aluno() {
 	}
 
-	public Aluno(Long id, String nome, String cpf, String matricula, String email, Sexo sexo, Turma turma) {
+	public Aluno(Long id, String nome, String cpf, String matricula, String email, String sexo) {
 		super(id, nome, cpf, matricula, email, sexo);
-		this.turma = turma;
 	}
 
-	public Turma getTurma() {
-		return turma;
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
 	}
 
-	public void setTurma(Turma turma) {
-		this.turma = turma;
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
+
+	public List<Turma> getTrumas() {
+		return trumas;
+	}
+
+	public void setTrumas(List<Turma> trumas) {
+		this.trumas = trumas;
 	}
 
 	public List<Aula> getFrequencias() {
@@ -45,5 +59,4 @@ public class Aluno extends Pessoa {
 		this.frequencias = frequencias;
 	}
 
-	
 }

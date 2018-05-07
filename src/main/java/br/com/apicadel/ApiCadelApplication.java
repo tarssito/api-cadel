@@ -14,7 +14,7 @@ import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.Turma;
-import br.com.apicadel.domain.enums.Sexo;
+import br.com.apicadel.domain.enums.Perfil;
 import br.com.apicadel.repositories.AlunoRepository;
 import br.com.apicadel.repositories.AulaRepository;
 import br.com.apicadel.repositories.CursoRepository;
@@ -70,8 +70,8 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
-		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", Sexo.M, true,
-				5);
+		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true,
+				5, Perfil.ADMIN);
 
 		prof1.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
 		laboratorioDeSoftware.getProfessores().addAll(Arrays.asList(prof1));
@@ -81,29 +81,37 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		professorRepository.saveAll(Arrays.asList(prof1));
 
-		Aluno aluno1 = new Aluno(null, "Tarssito Pereira", "03035268584", "042151013", "tarssito@hotmail.com", Sexo.M,
-				turma1);
-		Aluno aluno2 = new Aluno(null, "Ítalo Brazil", "03035268583", "042151012", "italo@hotmail.com", Sexo.M, turma1);
-		Aluno aluno3 = new Aluno(null, "Ian Ítalo", "03035268582", "042151011", "ian@hotmail.com", Sexo.M, turma1);
-		Aluno aluno4 = new Aluno(null, "Marcos Reis", "03035268581", "042151015", "marcos@hotmail.com", Sexo.M, turma1);
-		Aluno aluno5 = new Aluno(null, "Gabriel Rebouças", "03035268587", "042151016", "gabriel@hotmail.com", Sexo.M,
-				turma1);
-		Aluno aluno6 = new Aluno(null, "Thiago Vinhas", "03035268589", "042151017", "vinhas@hotmail.com", Sexo.M,
-				turma1);
+		Aluno aluno1 = new Aluno(null, "Tarssito Pereira", "03035268584", "042151013", "tarssito@hotmail.com", "M");
+		Aluno aluno2 = new Aluno(null, "Ítalo Brazil", "03035268583", "042151012", "italo@hotmail.com", "M");
+		Aluno aluno3 = new Aluno(null, "Ian Ítalo", "03035268582", "042151011", "ian@hotmail.com", "M");
+		Aluno aluno4 = new Aluno(null, "Marcos Reis", "03035268581", "042151015", "marcos@hotmail.com", "M");
+		Aluno aluno5 = new Aluno(null, "Gabriel Rebouças", "03035268587", "042151016", "gabriel@hotmail.com", "M");
+		Aluno aluno6 = new Aluno(null, "Thiago Vinhas", "03035268589", "042151017", "vinhas@hotmail.com", "M");
 
-		Aluno aluno7 = new Aluno(null, "Jeferson Souza", "02235268584", "042151023", "jeferson@hotmail.com", Sexo.M,
-				turma2);
-		Aluno aluno8 = new Aluno(null, "José Veríssimo", "12035268583", "042151022", "ze@hotmail.com", Sexo.M, turma2);
-		Aluno aluno9 = new Aluno(null, "Danilo Reis", "15035268582", "042151021", "danilo@hotmail.com", Sexo.M, turma2);
-		Aluno aluno10 = new Aluno(null, "Igor Carmo", "12032338581", "042151025", "rael@hotmail.com", Sexo.M, turma2);
-		Aluno aluno11 = new Aluno(null, "Wasgton Silva", "10035268587", "042151026", "wasgton@hotmail.com", Sexo.M,
-				turma2);
-		Aluno aluno12 = new Aluno(null, "Ricardo Oliveira", "03035268900", "042151027", "ricardo@hotmail.com", Sexo.M,
-				turma2);
+		Aluno aluno7 = new Aluno(null, "Jeferson Souza", "02235268584", "042151023", "jeferson@hotmail.com", "M");
+		Aluno aluno8 = new Aluno(null, "José Veríssimo", "12035268583", "042151022", "ze@hotmail.com", "M");
+		Aluno aluno9 = new Aluno(null, "Danilo Reis", "15035268582", "042151021", "danilo@hotmail.com", "M");
+		Aluno aluno10 = new Aluno(null, "Igor Carmo", "12032338581", "042151025", "rael@hotmail.com", "M");
+		Aluno aluno11 = new Aluno(null, "Wasgton Silva", "10035268587", "042151026", "wasgton@hotmail.com", "M");
+		Aluno aluno12 = new Aluno(null, "Ricardo Oliveira", "03035268900", "042151027", "ricardo@hotmail.com", "M");
 
 		turma1.getAlunos().addAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6));
 		turma2.getAlunos().addAll(Arrays.asList(aluno7, aluno8, aluno9, aluno10, aluno11, aluno12));
 
+		aluno1.getTrumas().add(turma1);
+		aluno2.getTrumas().add(turma1);
+		aluno3.getTrumas().add(turma1);
+		aluno4.getTrumas().add(turma1);
+		aluno5.getTrumas().add(turma1);
+		aluno6.getTrumas().add(turma1);
+	
+		aluno7.getTrumas().add(turma2);
+		aluno8.getTrumas().add(turma2);
+		aluno9.getTrumas().add(turma2);
+		aluno10.getTrumas().add(turma2);
+		aluno11.getTrumas().add(turma2);
+		aluno12.getTrumas().add(turma2);
+		
 		alunoRepository.saveAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6, aluno7, aluno8, aluno9,
 				aluno10, aluno11, aluno12));
 

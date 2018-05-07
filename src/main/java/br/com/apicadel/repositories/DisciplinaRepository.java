@@ -7,5 +7,5 @@ import br.com.apicadel.domain.Disciplina;
 
 @Repository
 public interface DisciplinaRepository extends JpaRepository<Disciplina, Long> {
-
+	
 }

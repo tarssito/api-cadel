@@ -39,9 +39,17 @@ public class Aula implements Serializable {
 	private Disciplina disciplina;
 
 	@ManyToMany
-	@JoinTable(name = "frequencia_aluno", joinColumns = @JoinColumn(name = "aula_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id"))
+	@JoinTable(name = "frequencia_aluno", 
+		joinColumns = @JoinColumn(name = "aula_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
+	)
 	private List<Aluno> alunos = new ArrayList<>();
 
+	@ManyToMany
+	@JoinTable(name = "frequencia_turma", 
+		joinColumns = @JoinColumn(name = "aula_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
+	)
+	private List<Turma> turmas = new ArrayList<>();
+	
 	public Aula() {
 	}
 
@@ -104,12 +112,20 @@ public class Aula implements Serializable {
 		this.disciplina = disciplina;
 	}
 
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+	
 	public void setAlunos(List<Aluno> alunos) {
 		this.alunos = alunos;
 	}
 
-	public List<Aluno> getAlunos() {
-		return alunos;
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	@Override

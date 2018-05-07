@@ -32,6 +32,9 @@ public class Disciplina implements Serializable {
 	@ManyToMany(mappedBy = "disciplinas")
 	private List<Curso> cursos = new ArrayList<>();
 
+	@ManyToMany(mappedBy = "disciplinas")
+	private List<Aluno> alunos = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "disciplina")
 	private List<Aula> aulas = new ArrayList<>();
 
@@ -77,6 +80,10 @@ public class Disciplina implements Serializable {
 		return cursos;
 	}
 
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+	
 	public List<Aula> getAulas() {
 		return aulas;
 	}

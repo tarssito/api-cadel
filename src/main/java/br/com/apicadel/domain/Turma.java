@@ -10,9 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Turma implements Serializable {
@@ -32,12 +32,18 @@ public class Turma implements Serializable {
 	@JoinColumn(name="curso_id")
 	private Curso curso;
 
-	@OneToMany(mappedBy = "turma")
+	@ManyToMany
+	@JoinTable(name = "turma_aluno", 
+		joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
+	)
 	private List<Aluno> alunos = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="turmas")
 	private List<Professor> professores = new ArrayList<>();
 
+	@ManyToMany(mappedBy="turmas")
+	private List<Aula> aulas = new ArrayList<>();
+	
 	public Turma() {
 	}
 
@@ -87,6 +93,14 @@ public class Turma implements Serializable {
 
 	public List<Professor> getProfessores() {
 		return professores;
+	}
+	
+	public List<Aula> getAulas() {
+		return aulas;
+	}
+
+	public void setAulas(List<Aula> aulas) {
+		this.aulas = aulas;
 	}
 
 	@Override

@@ -3,14 +3,11 @@ package br.com.apicadel.domain;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import br.com.apicadel.domain.enums.Sexo;
 
 @MappedSuperclass
 public abstract class Pessoa implements Serializable {
@@ -29,17 +26,16 @@ public abstract class Pessoa implements Serializable {
 	@Column(nullable = false, unique = true, length = 25)
 	private String matricula;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String email;
 	
-	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private Sexo sexo;
+	private String sexo;
 
 	public Pessoa() {
 	}
 
-	public Pessoa(Long id, String nome, String cpf, String matricula, String email, Sexo sexo) {
+	public Pessoa(Long id, String nome, String cpf, String matricula, String email, String sexo) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -89,11 +85,11 @@ public abstract class Pessoa implements Serializable {
 		this.email = email;
 	}
 
-	public Sexo getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(Sexo sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 
