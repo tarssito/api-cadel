@@ -14,7 +14,7 @@ Api Restful do projeto de Caderneta eletrônica
 
 ## Etapas para a instalação
 
-**1. Clone a aplicação
+**1. Clone a aplicação**
 
 ```bash
 https://github.com/tarssito/api-cadel.git
