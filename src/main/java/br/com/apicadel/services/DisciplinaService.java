@@ -16,7 +16,7 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 	}
 
 	public Disciplina fromDTO(DisciplinaDTO objDTO) {
-		return new Disciplina(objDTO.getId(), objDTO.getNome());
+		return new Disciplina(objDTO.getId(), objDTO.getNome(), objDTO.getCargaHoraria());
 	}
 
 }

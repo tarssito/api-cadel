@@ -17,13 +17,16 @@ public class DisciplinaDTO implements Serializable {
 	@Length(min = 5, max = 100, message = "O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
 
+	private int cargaHoraria;
+
 	public DisciplinaDTO() {
 	}
 
-	public DisciplinaDTO(Disciplina Disciplina) {
+	public DisciplinaDTO(Disciplina disciplina) {
 		super();
-		this.id = Disciplina.getId();
-		this.nome = Disciplina.getNome();
+		this.id = disciplina.getId();
+		this.nome = disciplina.getNome();
+		this.cargaHoraria = disciplina.getCargaHoraria();
 	}
 
 	public Long getId() {
@@ -40,6 +43,14 @@ public class DisciplinaDTO implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public int getCargaHoraria() {
+		return cargaHoraria;
+	}
+
+	public void setCargaHoraria(int cargaHoraria) {
+		this.cargaHoraria = cargaHoraria;
 	}
 
 }
