@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.apicadel.domain.Aluno;
 import br.com.apicadel.domain.Aula;
@@ -25,6 +26,9 @@ import br.com.apicadel.repositories.TurmaRepository;
 @SpringBootApplication
 public class ApiCadelApplication implements CommandLineRunner {
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -71,7 +75,7 @@ public class ApiCadelApplication implements CommandLineRunner {
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
 		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true,
-				5, Perfil.ADMIN);
+				5, Perfil.ADMIN, passwordEncoder.encode("123456"));
 
 		prof1.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
 		laboratorioDeSoftware.getProfessores().addAll(Arrays.asList(prof1));

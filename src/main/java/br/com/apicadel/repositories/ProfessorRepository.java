@@ -7,4 +7,5 @@ import br.com.apicadel.domain.Professor;
 @Repository
 public interface ProfessorRepository extends GenericRepository<Professor, Long> {
 
+	Professor findByMatricula(String matricula);
 }
