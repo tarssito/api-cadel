@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -75,4 +76,16 @@ public class ProfessorResource {
 		Page<ProfessorDTO> listDTO = list.map(obj -> new ProfessorDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
+
+	@RequestMapping(value = "/auth", method = RequestMethod.POST)
+	public ResponseEntity<ProfessorDTO> auth(@RequestBody Professor obj) {
+		Professor professor = service.authenticator(obj);
+		if (professor != null) {
+			ProfessorDTO professorDTO = service.fromObject(professor);
+			return ResponseEntity.ok().body(professorDTO);
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+
 }

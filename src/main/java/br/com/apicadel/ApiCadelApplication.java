@@ -3,6 +3,7 @@ package br.com.apicadel;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -71,7 +72,7 @@ public class ApiCadelApplication implements CommandLineRunner {
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
 		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true, 5,
-				Perfil.ADMIN);
+				Perfil.ADMIN, BCrypt.hashpw("admin", BCrypt.gensalt()));
 
 		prof1.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
 		laboratorioDeSoftware.getProfessores().addAll(Arrays.asList(prof1));

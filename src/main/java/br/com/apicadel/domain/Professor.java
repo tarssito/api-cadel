@@ -20,9 +20,7 @@ public class Professor extends Pessoa {
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "professor_disciplina", 
-		joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id")
-	)
+	@JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
 	private List<Disciplina> disciplinas = new ArrayList<>();
 
 	@JsonIgnore
@@ -34,23 +32,24 @@ public class Professor extends Pessoa {
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "professor_turma", 
-		joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "turma_id")
-	)
+	@JoinTable(name = "professor_turma", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "turma_id"))
 	private List<Turma> turmas = new ArrayList<>();
 
 	@JsonIgnore
 	@Column(name = "perfil_id", nullable = false)
 	private Integer perfil;
-	
+
+	private String senha;
+
 	public Professor() {
 	}
 
 	public Professor(Long id, String nome, String cpf, String matricula, String email, String sexo, boolean ativo,
-			Integer notificacaoEmail, Perfil perfil) {
+			Integer notificacaoEmail, Perfil perfil, String senha) {
 		super(id, nome, cpf, matricula, email, sexo);
 		this.notificacaoEmail = notificacaoEmail;
 		this.perfil = perfil.getCod();
+		this.senha = senha;
 	}
 
 	public Integer getNotificacaoEmail() {
@@ -79,6 +78,14 @@ public class Professor extends Pessoa {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil.getCod();
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 }
