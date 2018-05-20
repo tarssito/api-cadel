@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Disciplina implements Serializable {
@@ -26,18 +29,25 @@ public class Disciplina implements Serializable {
 	@Column(nullable = false)
 	private int cargaHoraria;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "disciplina")
-	private List<CursoDisciplina> cursos = new ArrayList<>();
+	private List<CursoDisciplina> cursosDisciplina = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "disciplinas")
 	private List<Professor> professores = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "disciplinas")
 	private List<Aluno> alunos = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "disciplina")
 	private List<Aula> aulas = new ArrayList<>();
 
+	@Transient
+	private List<Curso> cursos = new ArrayList<>();
+	
 	public Disciplina() {
 	}
 
@@ -53,7 +63,7 @@ public class Disciplina implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.cargaHoraria = cargaHoraria;
-		this.cursos = cursos;
+		this.cursosDisciplina = cursos;
 	}
 	
 	public Long getId() {
@@ -80,12 +90,12 @@ public class Disciplina implements Serializable {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public List<CursoDisciplina> getCursos() {
-		return cursos;
+	public List<CursoDisciplina> getCursosDisciplina() {
+		return cursosDisciplina;
 	}
 
-	public void setCursos(List<CursoDisciplina> cursos) {
-		this.cursos = cursos;
+	public void setCursosDisciplina(List<CursoDisciplina> cursos) {
+		this.cursosDisciplina = cursos;
 	}
 
 	public List<Professor> getProfessores() {
@@ -98,6 +108,14 @@ public class Disciplina implements Serializable {
 
 	public List<Aula> getAulas() {
 		return aulas;
+	}
+	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
 	}
 
 	@Override

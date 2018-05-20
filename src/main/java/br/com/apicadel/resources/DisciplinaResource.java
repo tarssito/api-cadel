@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.apicadel.domain.Curso;
+import br.com.apicadel.domain.CursoDisciplina;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.dto.DisciplinaDTO;
+import br.com.apicadel.services.CursoService;
 import br.com.apicadel.services.DisciplinaService;
 
 @RestController
@@ -29,9 +32,16 @@ public class DisciplinaResource {
 	@Autowired
 	private DisciplinaService service;
 
+	@Autowired
+	private CursoService cursoService;
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Disciplina> find(@PathVariable Long id) {
 		Disciplina obj = service.find(id);
+		for (CursoDisciplina cd : obj.getCursosDisciplina()) {
+			Curso curso = cursoService.find(cd.getCurso().getId());
+			obj.getCursos().add(curso);
+		}
 		return ResponseEntity.ok().body(obj);
 	}
 

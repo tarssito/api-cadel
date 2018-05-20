@@ -30,7 +30,7 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 	
 	@Override
 	public Disciplina save(Disciplina entity) {	
-		List<CursoDisciplina> cursosDisciplinas = entity.getCursos();
+		List<CursoDisciplina> cursosDisciplinas = entity.getCursosDisciplina();
 		if (entity.getId() != null) {
 			List<CursoDisciplina> cursos = cursoDisciplinaRepository.findByDisciplina(entity);
 			cursoDisciplinaRepository.deleteAll(cursos);
@@ -43,6 +43,14 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 			cursoDisciplinaRepository.save(cd);
 		}		
 		return disciplina;
+	}
+	
+	@Override
+	public void delete(Long id) {
+		Disciplina disciplina = find(id);
+		List<CursoDisciplina> cursos = cursoDisciplinaRepository.findByDisciplina(disciplina);
+		cursoDisciplinaRepository.deleteAll(cursos);
+		super.delete(id);
 	}
 	
 	public Disciplina fromDTO(DisciplinaDTO objDTO) {

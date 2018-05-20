@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class CursoDisciplina implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,10 +20,12 @@ public class CursoDisciplina implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "curso_id")
 	private Curso curso;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "disciplina_id")
 	private Disciplina disciplina;
