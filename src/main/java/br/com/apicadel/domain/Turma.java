@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Turma implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,33 +27,40 @@ public class Turma implements Serializable {
 	@Column(nullable = false, unique = true, length = 10)
 	private String sigla;
 	
-	@Column(nullable = false, length = 6)
-	private String periodoLetivo;
+	@Column(nullable = false, length = 1)
+	private String semestre;
+	
+	@Column(nullable = false, length = 4)
+	private String ano;
 	
 	@ManyToOne
 	@JoinColumn(name="curso_id")
 	private Curso curso;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "turma_aluno", 
 		joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
 	)
 	private List<Aluno> alunos = new ArrayList<>();
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="turmas")
 	private List<Professor> professores = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToMany(mappedBy="turmas")
 	private List<Aula> aulas = new ArrayList<>();
 	
 	public Turma() {
 	}
 
-	public Turma(Long id, String sigla, String semestre, Curso curso) {
+	public Turma(Long id, String sigla, String semestre, String ano, Curso curso) {
 		super();
 		this.id = id;
 		this.sigla = sigla;
-		this.periodoLetivo = semestre;
+		this.semestre = semestre;
+		this.ano = ano;
 		this.curso = curso;
 	}
 
@@ -71,12 +80,28 @@ public class Turma implements Serializable {
 		this.sigla = sigla;
 	}
 
-	public String getPeriodoLetivo() {
-		return periodoLetivo;
+	public String getSemestre() {
+		return semestre;
 	}
 
-	public void setPeriodoLetivo(String periodoLetivo) {
-		this.periodoLetivo = periodoLetivo;
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
+	}
+
+	public void setProfessores(List<Professor> professores) {
+		this.professores = professores;
 	}
 
 	public Curso getCurso() {

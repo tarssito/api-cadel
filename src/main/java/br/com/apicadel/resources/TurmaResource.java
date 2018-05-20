@@ -18,26 +18,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.apicadel.domain.Curso;
-import br.com.apicadel.dto.CursoDTO;
-import br.com.apicadel.services.CursoService;
+import br.com.apicadel.domain.Turma;
+import br.com.apicadel.dto.TurmaDTO;
+import br.com.apicadel.services.TurmaService;
 
 @RestController
-@RequestMapping(value = "/cursos")
-public class CursoResource {
+@RequestMapping(value = "/turmas")
+public class TurmaResource {
 
 	@Autowired
-	private CursoService service;
+	private TurmaService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Curso> find(@PathVariable Long id) {
-		Curso obj = service.find(id);
+	public ResponseEntity<Turma> find(@PathVariable Long id) {
+		Turma obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody CursoDTO objDTO) {
-		Curso obj = service.fromDTO(objDTO);
+	public ResponseEntity<Void> insert(@Valid @RequestBody TurmaDTO objDTO) {
+		Turma obj = service.fromDTO(objDTO);
 		obj = service.save(obj);
 		/* Retorna na url o id inserido (cursos/{id}) */
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
@@ -45,8 +45,8 @@ public class CursoResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody CursoDTO objDTO, @PathVariable Long id) {
-		Curso obj = service.fromDTO(objDTO);
+	public ResponseEntity<Void> update(@Valid @RequestBody TurmaDTO objDTO, @PathVariable Long id) {
+		Turma obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		obj = service.save(obj);
 		return ResponseEntity.noContent().build();
@@ -57,22 +57,22 @@ public class CursoResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-
+	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<CursoDTO>> findAll() {
-		List<Curso> list = service.findAll();
-		list.sort(Comparator.comparing(Curso::getNome));
-		List<CursoDTO> listDTO = list.stream().map(obj -> new CursoDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<TurmaDTO>> findAll() {
+		List<Turma> list = service.findAll();
+		list.sort(Comparator.comparing(Turma::getSigla));
+		List<TurmaDTO> listDTO = list.stream().map(obj -> new TurmaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity<Page<CursoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<TurmaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		Page<Curso> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<CursoDTO> listDTO = list.map(obj -> new CursoDTO(obj));
+		Page<Turma> list = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<TurmaDTO> listDTO = list.map(obj -> new TurmaDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
 }

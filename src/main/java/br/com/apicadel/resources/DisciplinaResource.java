@@ -1,6 +1,7 @@
 package br.com.apicadel.resources;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,7 @@ public class DisciplinaResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<DisciplinaDTO>> findAll() {
 		List<Disciplina> list = service.findAll();
+		list.sort(Comparator.comparing(Disciplina::getNome));
 		List<DisciplinaDTO> listDTO = list.stream().map(obj -> new DisciplinaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}

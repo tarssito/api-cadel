@@ -9,9 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,25 +16,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Curso implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, unique = true, length = 100)
 	private String nome;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "curso")
 	private List<Turma> turmas = new ArrayList<>();
-	
+
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "curso_disciplina", 
-		joinColumns = @JoinColumn(name = "curso_id"), 
-		inverseJoinColumns = @JoinColumn(name = "disciplina_id")
-	)
-	private List<Disciplina> disciplinas = new ArrayList<>();
+	@OneToMany(mappedBy = "curso")
+	private List<CursoDisciplina> disciplinas = new ArrayList<>();
 
 	public Curso() {
 	}
@@ -64,12 +57,20 @@ public class Curso implements Serializable {
 		this.nome = nome;
 	}
 
+	public List<CursoDisciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<CursoDisciplina> cursos) {
+		this.disciplinas = cursos;
+	}
+
 	public List<Turma> getTurmas() {
 		return turmas;
 	}
 
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	@Override

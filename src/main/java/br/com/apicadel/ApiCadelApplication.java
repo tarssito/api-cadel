@@ -52,16 +52,16 @@ public class ApiCadelApplication implements CommandLineRunner {
 		Curso si = new Curso(null, "Sistema de Informação");
 		Curso cc = new Curso(null, "Ciência da Computação");
 
-		Turma turma1 = new Turma(null, "SI01", "2018.1", si);
-		Turma turma2 = new Turma(null, "CC01", "2018.1", cc);
+		Turma turma1 = new Turma(null, "SI01", "1", "2018", si);
+		Turma turma2 = new Turma(null, "CC01", "1", "2018", cc);
 
 		Disciplina laboratorioDeSoftware = new Disciplina(null, "Laboratorio de Software", 60);
 
-		si.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
-		cc.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
+		//si.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
+		//cc.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
 		
-		laboratorioDeSoftware.getCursos().addAll(Arrays.asList(si, cc));
-
+		//laboratorioDeSoftware.getCursos().addAll(Arrays.asList(si, cc));
+		
 		disciplinaRepository.saveAll(Arrays.asList(laboratorioDeSoftware));
 		cursoRepository.saveAll(Arrays.asList(si, cc));
 
@@ -70,8 +70,8 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
-		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true,
-				5, Perfil.ADMIN);
+		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true, 5,
+				Perfil.ADMIN);
 
 		prof1.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
 		laboratorioDeSoftware.getProfessores().addAll(Arrays.asList(prof1));
@@ -104,14 +104,14 @@ public class ApiCadelApplication implements CommandLineRunner {
 		aluno4.getTrumas().add(turma1);
 		aluno5.getTrumas().add(turma1);
 		aluno6.getTrumas().add(turma1);
-	
+
 		aluno7.getTrumas().add(turma2);
 		aluno8.getTrumas().add(turma2);
 		aluno9.getTrumas().add(turma2);
 		aluno10.getTrumas().add(turma2);
 		aluno11.getTrumas().add(turma2);
 		aluno12.getTrumas().add(turma2);
-		
+
 		alunoRepository.saveAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6, aluno7, aluno8, aluno9,
 				aluno10, aluno11, aluno12));
 
@@ -122,10 +122,10 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		Aula a2 = new Aula(null, sdf.parse("10/04/2018 19:02"), sdf.parse("30/03/2018 19:02"),
 				sdf.parse("30/03/2018 20:15"), prof1, laboratorioDeSoftware);
-		
+
 		a1.getAlunos().addAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6));
 		a2.getAlunos().addAll(Arrays.asList(aluno7, aluno8, aluno9, aluno10, aluno11, aluno12));
-		
+
 		laboratorioDeSoftware.getAulas().addAll(Arrays.asList(a1, a2));
 		prof1.getAulas().addAll(Arrays.asList(a1, a2));
 
@@ -142,7 +142,7 @@ public class ApiCadelApplication implements CommandLineRunner {
 		aluno10.getFrequencias().add(a2);
 		aluno11.getFrequencias().add(a2);
 		aluno12.getFrequencias().add(a2);
-		
+
 		aulaRepository.saveAll(Arrays.asList(a1, a2));
 
 	}

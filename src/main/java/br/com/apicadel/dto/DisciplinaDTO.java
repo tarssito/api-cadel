@@ -1,11 +1,14 @@
 package br.com.apicadel.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 
 public class DisciplinaDTO implements Serializable {
@@ -18,6 +21,8 @@ public class DisciplinaDTO implements Serializable {
 	private String nome;
 
 	private int cargaHoraria;
+
+	private List<Curso> cursos = new ArrayList<>();
 
 	public DisciplinaDTO() {
 	}
@@ -51,6 +56,14 @@ public class DisciplinaDTO implements Serializable {
 
 	public void setCargaHoraria(int cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
+	}
+
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
 	}
 
 }

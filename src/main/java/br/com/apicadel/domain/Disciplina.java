@@ -26,15 +26,15 @@ public class Disciplina implements Serializable {
 	@Column(nullable = false)
 	private int cargaHoraria;
 
+	@OneToMany(mappedBy = "disciplina")
+	private List<CursoDisciplina> cursos = new ArrayList<>();
+
 	@ManyToMany(mappedBy = "disciplinas")
 	private List<Professor> professores = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "disciplinas")
-	private List<Curso> cursos = new ArrayList<>();
-
-	@ManyToMany(mappedBy = "disciplinas")
 	private List<Aluno> alunos = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "disciplina")
 	private List<Aula> aulas = new ArrayList<>();
 
@@ -47,7 +47,15 @@ public class Disciplina implements Serializable {
 		this.nome = nome;
 		this.cargaHoraria = cargaHoraria;
 	}
-
+	
+	public Disciplina(Long id, String nome, int cargaHoraria, List<CursoDisciplina> cursos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cargaHoraria = cargaHoraria;
+		this.cursos = cursos;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,18 +80,22 @@ public class Disciplina implements Serializable {
 		this.cargaHoraria = cargaHoraria;
 	}
 
-	public List<Professor> getProfessores() {
-		return professores;
+	public List<CursoDisciplina> getCursos() {
+		return cursos;
 	}
 
-	public List<Curso> getCursos() {
-		return cursos;
+	public void setCursos(List<CursoDisciplina> cursos) {
+		this.cursos = cursos;
+	}
+
+	public List<Professor> getProfessores() {
+		return professores;
 	}
 
 	public List<Aluno> getAlunos() {
 		return alunos;
 	}
-	
+
 	public List<Aula> getAulas() {
 		return aulas;
 	}

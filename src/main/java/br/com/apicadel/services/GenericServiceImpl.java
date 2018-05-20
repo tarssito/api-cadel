@@ -26,7 +26,7 @@ import br.com.apicadel.services.exceptions.ObjectNotFoundException;
 public abstract class GenericServiceImpl<E, ID extends Serializable> implements GenericService<E, ID> {
 
 	@Autowired
-	private GenericRepository<E, ID> repository;
+	protected GenericRepository<E, ID> repository;
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,6 +1,7 @@
 package br.com.apicadel.resources;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,7 @@ public class AlunoResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<AlunoDTO>> findAll() {
 		List<Aluno> list = service.findAll();
+		list.sort(Comparator.comparing(Aluno::getNome));
 		List<AlunoDTO> listDTO = list.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
