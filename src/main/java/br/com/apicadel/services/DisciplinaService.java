@@ -24,8 +24,12 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 	private CursoDisciplinaRepository cursoDisciplinaRepository;
 	
 	@Autowired
+	private DisciplinaRepository disciplinaRepository;
+	
+	@Autowired
 	public DisciplinaService(DisciplinaRepository repository) {
 		super(repository);
+		this.disciplinaRepository = repository;
 	}
 	
 	@Override
@@ -65,4 +69,14 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 		return new Disciplina(objDTO.getId(), objDTO.getNome(), objDTO.getCargaHoraria(), newCursos);
 	}
 
+	public List<Disciplina> search(DisciplinaDTO disciplina) {
+		if (disciplina.getNome() != null && disciplina.getCargaHoraria() > 0) {
+			return disciplinaRepository.findByNomeContainingAndCargaHoraria(disciplina.getNome(), disciplina.getCargaHoraria());
+		} else if (disciplina.getNome() != null && disciplina.getCargaHoraria() == 0) {
+			return disciplinaRepository.findByNomeContaining(disciplina.getNome());
+		} else {
+			return disciplinaRepository.findByCargaHoraria(disciplina.getCargaHoraria());
+		}		
+	}
+	
 }

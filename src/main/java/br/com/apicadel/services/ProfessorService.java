@@ -1,5 +1,7 @@
 package br.com.apicadel.services;
 
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +14,12 @@ import br.com.apicadel.repositories.ProfessorRepository;
 @Service
 public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 
-	@Autowired
 	private ProfessorRepository professorRepository;
 
 	@Autowired
 	public ProfessorService(ProfessorRepository repository) {
 		super(repository);
+		this.professorRepository = repository;
 	}
 
 	public Professor fromDTO(ProfessorDTO objDTO) {
@@ -29,9 +31,21 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 	public ProfessorDTO fromObject(Professor obj) {
 		return new ProfessorDTO(obj);
 	}
-	
+
 	public Professor authenticator(Professor obj) {
 		Professor professor = professorRepository.authenticator(obj.getMatricula());
 		return BCrypt.checkpw(obj.getSenha(), professor.getSenha()) ? professor : null;
 	}
+
+	public List<Professor> search(ProfessorDTO professor) {
+		if (professor.getNome() != null && professor.getMatricula() != null) {
+			return professorRepository.findByMatriculaContainingAndNomeContaining(professor.getMatricula(),
+					professor.getNome());
+		} else if (professor.getNome() != null && professor.getMatricula() == null) {
+			return professorRepository.findByNomeContaining(professor.getNome());
+		} else {
+			return professorRepository.findByMatriculaContaining(professor.getMatricula());
+		}
+	}
+
 }

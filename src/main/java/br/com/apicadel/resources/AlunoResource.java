@@ -66,6 +66,14 @@ public class AlunoResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseEntity<List<AlunoDTO>> search(@RequestBody AlunoDTO objDTO) {
+		List<Aluno> list = service.search(objDTO);
+		list.sort(Comparator.comparing(Aluno::getNome));
+		List<AlunoDTO> listDTO = list.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<AlunoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

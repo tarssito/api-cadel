@@ -76,6 +76,14 @@ public class DisciplinaResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseEntity<List<DisciplinaDTO>> search(@RequestBody DisciplinaDTO objDTO) {
+		List<Disciplina> list = service.search(objDTO);
+		list.sort(Comparator.comparing(Disciplina::getNome));
+		List<DisciplinaDTO> listDTO = list.stream().map(obj -> new DisciplinaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<DisciplinaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

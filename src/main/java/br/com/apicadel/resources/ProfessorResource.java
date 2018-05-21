@@ -67,6 +67,14 @@ public class ProfessorResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseEntity<List<ProfessorDTO>> search(@RequestBody ProfessorDTO objDTO) {
+		List<Professor> list = service.search(objDTO);
+		list.sort(Comparator.comparing(Professor::getNome));
+		List<ProfessorDTO> listDTO = list.stream().map(obj -> new ProfessorDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ProfessorDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

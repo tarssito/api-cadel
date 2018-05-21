@@ -66,6 +66,14 @@ public class CursoResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public ResponseEntity<List<CursoDTO>> search(@RequestBody CursoDTO objDTO) {
+		List<Curso> list = service.findByNome(objDTO.getNome());
+		list.sort(Comparator.comparing(Curso::getNome));
+		List<CursoDTO> listDTO = list.stream().map(obj -> new CursoDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<CursoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
