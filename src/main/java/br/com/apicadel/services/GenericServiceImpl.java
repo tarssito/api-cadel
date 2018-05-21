@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 
 import br.com.apicadel.repositories.GenericRepository;
+import br.com.apicadel.resources.utils.CodigoMensagem;
 import br.com.apicadel.services.exceptions.DataIntegrityException;
 import br.com.apicadel.services.exceptions.ObjectNotFoundException;
 
@@ -37,7 +38,7 @@ public abstract class GenericServiceImpl<E, ID extends Serializable> implements 
 	@Override
 	public E find(ID id) {
 		Optional<E> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException(CodigoMensagem.COD_OBJECT_NOTFOUND.getCodigoMsg()));
 	}
 
 	@Override
@@ -50,7 +51,7 @@ public abstract class GenericServiceImpl<E, ID extends Serializable> implements 
 		try {
 			return repository.save(entity);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Já existe essa informação salva no sistema");
+			throw new DataIntegrityException(CodigoMensagem.COD_UNIQUE_REGISTER.getCodigoMsg());
 		}		
 	}
 
@@ -60,7 +61,7 @@ public abstract class GenericServiceImpl<E, ID extends Serializable> implements 
 		try {
 			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não foi possível excluir, existem dependencias associadas a esta entidade");
+			throw new DataIntegrityException(CodigoMensagem.COD_DATA_INTEGRITY.getCodigoMsg());
 		}
 	}
 

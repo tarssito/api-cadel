@@ -1,6 +1,5 @@
 package br.com.apicadel.resources;
 
-import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.dto.TurmaDTO;
+import br.com.apicadel.resources.utils.CodigoMensagem;
 import br.com.apicadel.services.TurmaService;
 
 @RestController
@@ -36,26 +35,24 @@ public class TurmaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody TurmaDTO objDTO) {
+	public ResponseEntity<String> insert(@Valid @RequestBody TurmaDTO objDTO) {
 		Turma obj = service.fromDTO(objDTO);
-		obj = service.save(obj);
-		/* Retorna na url o id inserido (cursos/{id}) */
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		service.save(obj);
+		return ResponseEntity.ok().body(CodigoMensagem.COD_INSERT_SUCCESS.getCodigoMsg());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody TurmaDTO objDTO, @PathVariable Long id) {
+	public ResponseEntity<String> update(@Valid @RequestBody TurmaDTO objDTO, @PathVariable Long id) {
 		Turma obj = service.fromDTO(objDTO);
 		obj.setId(id);
-		obj = service.save(obj);
-		return ResponseEntity.noContent().build();
+		service.save(obj);
+		return ResponseEntity.ok().body(CodigoMensagem.COD_UPDATE_SUCCESS.getCodigoMsg());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<String> delete(@PathVariable Long id) {
 		service.delete(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(CodigoMensagem.COD_DELETE_SUCCESS.getCodigoMsg());
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
