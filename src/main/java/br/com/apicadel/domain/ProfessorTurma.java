@@ -1,40 +1,31 @@
 package br.com.apicadel.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Curso implements Serializable {
+public class ProfessorTurma implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true, length = 100)
-	private String nome;
+	@ManyToOne
+	@JoinColumn(name = "professor_disciplina_id")
+	private ProfessorDisciplina professorDisciplina;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "curso")
-	private List<CursoDisciplina> disciplinas = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "turma_id")
+	private Turma turma;
 
-	public Curso() {
-	}
-
-	public Curso(Long id, String nome) {
-		super();
-		this.id = id;
-		this.nome = nome;
+	public ProfessorTurma() {
 	}
 
 	public Long getId() {
@@ -45,20 +36,20 @@ public class Curso implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public ProfessorDisciplina getProfessorDisciplina() {
+		return professorDisciplina;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setProfessor(ProfessorDisciplina professorDisciplina) {
+		this.professorDisciplina = professorDisciplina;
 	}
 
-	public List<CursoDisciplina> getDisciplinas() {
-		return disciplinas;
+	public Turma getTurma() {
+		return turma;
 	}
 
-	public void setDisciplinas(List<CursoDisciplina> cursos) {
-		this.disciplinas = cursos;
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
 
 	@Override
@@ -77,7 +68,7 @@ public class Curso implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Curso other = (Curso) obj;
+		ProfessorTurma other = (ProfessorTurma) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -85,5 +76,4 @@ public class Curso implements Serializable {
 			return false;
 		return true;
 	}
-
 }

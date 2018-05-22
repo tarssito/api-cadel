@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,22 +15,8 @@ import br.com.apicadel.domain.enums.Perfil;
 public class Professor extends Pessoa {
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "professor_disciplina", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "disciplina_id"))
-	private List<Disciplina> disciplinas = new ArrayList<>();
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "professor")
-	private List<Aula> aulas = new ArrayList<>();
-
 	@Column(columnDefinition = "int default 10")
 	private Integer notificacaoEmail;
-
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "professor_turma", joinColumns = @JoinColumn(name = "professor_id"), inverseJoinColumns = @JoinColumn(name = "turma_id"))
-	private List<Turma> turmas = new ArrayList<>();
 
 	@JsonIgnore
 	@Column(name = "perfil_id", nullable = false)
@@ -41,6 +24,10 @@ public class Professor extends Pessoa {
 
 	private String senha;
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "professor")
+	private List<ProfessorDisciplina> disciplinasProfessor = new ArrayList<>();
+	
 	public Professor() {
 	}
 
@@ -60,18 +47,6 @@ public class Professor extends Pessoa {
 		this.notificacaoEmail = notificacaoEmail;
 	}
 
-	public List<Disciplina> getDisciplinas() {
-		return disciplinas;
-	}
-
-	public List<Turma> getTurmas() {
-		return turmas;
-	}
-
-	public List<Aula> getAulas() {
-		return aulas;
-	}
-
 	public Integer getPerfil() {
 		return perfil;
 	}
@@ -88,4 +63,13 @@ public class Professor extends Pessoa {
 		this.senha = senha;
 	}
 
+	public List<ProfessorDisciplina> getDisciplinasProfessor() {
+		return disciplinasProfessor;
+	}
+
+	public void setDisciplinasProfessor(List<ProfessorDisciplina> disciplinasProfessor) {
+		this.disciplinasProfessor = disciplinasProfessor;
+	}
+
+	
 }

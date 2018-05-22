@@ -1,6 +1,5 @@
 package br.com.apicadel;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -10,14 +9,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
-import br.com.apicadel.domain.Aula;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.Perfil;
+import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
-import br.com.apicadel.repositories.AulaRepository;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorRepository;
@@ -27,23 +25,21 @@ import br.com.apicadel.repositories.TurmaRepository;
 public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
+	private AlunoRepository alunoRepository;
+		
+	@Autowired
 	private CursoRepository cursoRepository;
 
+	@Autowired
+	private DisciplinaRepository disciplinaRepository;
+		
 	@Autowired
 	private TurmaRepository turmaRepository;
 
 	@Autowired
-	private DisciplinaRepository disciplinaRepository;
-
-	@Autowired
 	private ProfessorRepository professorRepository;
 
-	@Autowired
-	private AlunoRepository alunoRepository;
-
-	@Autowired
-	private AulaRepository aulaRepository;
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCadelApplication.class, args);
 	}
@@ -53,32 +49,17 @@ public class ApiCadelApplication implements CommandLineRunner {
 		Curso si = new Curso(null, "Sistema de Informação");
 		Curso cc = new Curso(null, "Ciência da Computação");
 
-		Turma turma1 = new Turma(null, "SI01", "1", "2018", si);
-		Turma turma2 = new Turma(null, "CC01", "1", "2018", cc);
+		Turma turma1 = new Turma(null, "SI01", "1", "2018", si, TurnoLetivo.MATUTINO.getTurno());
+		Turma turma2 = new Turma(null, "CC01", "1", "2018", cc, TurnoLetivo.NOTURNO.getTurno());
 
 		Disciplina laboratorioDeSoftware = new Disciplina(null, "Laboratorio de Software", 60);
-
-		//si.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
-		//cc.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
-		
-		//laboratorioDeSoftware.getCursos().addAll(Arrays.asList(si, cc));
 		
 		disciplinaRepository.saveAll(Arrays.asList(laboratorioDeSoftware));
 		cursoRepository.saveAll(Arrays.asList(si, cc));
-
-		si.getTurmas().addAll(Arrays.asList(turma1));
-		cc.getTurmas().addAll(Arrays.asList(turma2));
-
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
 		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true, 5,
 				Perfil.ADMIN, BCrypt.hashpw("admin", BCrypt.gensalt()));
-
-		prof1.getDisciplinas().addAll(Arrays.asList(laboratorioDeSoftware));
-		laboratorioDeSoftware.getProfessores().addAll(Arrays.asList(prof1));
-		prof1.getTurmas().addAll(Arrays.asList(turma1, turma2));
-		turma1.getProfessores().addAll(Arrays.asList(prof1));
-		turma2.getProfessores().addAll(Arrays.asList(prof1));
 
 		professorRepository.saveAll(Arrays.asList(prof1));
 
@@ -96,55 +77,8 @@ public class ApiCadelApplication implements CommandLineRunner {
 		Aluno aluno11 = new Aluno(null, "Wasgton Silva", "10035268587", "042151026", "wasgton@hotmail.com", "M");
 		Aluno aluno12 = new Aluno(null, "Ricardo Oliveira", "03035268900", "042151027", "ricardo@hotmail.com", "M");
 
-		turma1.getAlunos().addAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6));
-		turma2.getAlunos().addAll(Arrays.asList(aluno7, aluno8, aluno9, aluno10, aluno11, aluno12));
-
-		aluno1.getTrumas().add(turma1);
-		aluno2.getTrumas().add(turma1);
-		aluno3.getTrumas().add(turma1);
-		aluno4.getTrumas().add(turma1);
-		aluno5.getTrumas().add(turma1);
-		aluno6.getTrumas().add(turma1);
-
-		aluno7.getTrumas().add(turma2);
-		aluno8.getTrumas().add(turma2);
-		aluno9.getTrumas().add(turma2);
-		aluno10.getTrumas().add(turma2);
-		aluno11.getTrumas().add(turma2);
-		aluno12.getTrumas().add(turma2);
-
 		alunoRepository.saveAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6, aluno7, aluno8, aluno9,
 				aluno10, aluno11, aluno12));
-
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-
-		Aula a1 = new Aula(null, sdf.parse("30/03/2018 19:02"), sdf.parse("30/03/2018 19:02"),
-				sdf.parse("30/03/2018 20:15"), prof1, laboratorioDeSoftware);
-
-		Aula a2 = new Aula(null, sdf.parse("10/04/2018 19:02"), sdf.parse("30/03/2018 19:02"),
-				sdf.parse("30/03/2018 20:15"), prof1, laboratorioDeSoftware);
-
-		a1.getAlunos().addAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6));
-		a2.getAlunos().addAll(Arrays.asList(aluno7, aluno8, aluno9, aluno10, aluno11, aluno12));
-
-		laboratorioDeSoftware.getAulas().addAll(Arrays.asList(a1, a2));
-		prof1.getAulas().addAll(Arrays.asList(a1, a2));
-
-		aluno1.getFrequencias().add(a1);
-		aluno2.getFrequencias().add(a1);
-		aluno3.getFrequencias().add(a1);
-		aluno4.getFrequencias().add(a1);
-		aluno5.getFrequencias().add(a1);
-		aluno6.getFrequencias().add(a1);
-
-		aluno7.getFrequencias().add(a2);
-		aluno8.getFrequencias().add(a2);
-		aluno9.getFrequencias().add(a2);
-		aluno10.getFrequencias().add(a2);
-		aluno11.getFrequencias().add(a2);
-		aluno12.getFrequencias().add(a2);
-
-		aulaRepository.saveAll(Arrays.asList(a1, a2));
 
 	}
 }

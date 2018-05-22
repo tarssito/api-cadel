@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -34,20 +33,12 @@ public class Disciplina implements Serializable {
 	private List<CursoDisciplina> cursosDisciplina = new ArrayList<>();
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "disciplinas")
-	private List<Professor> professores = new ArrayList<>();
-
-	@JsonIgnore
-	@ManyToMany(mappedBy = "disciplinas")
-	private List<Aluno> alunos = new ArrayList<>();
-
-	@JsonIgnore
 	@OneToMany(mappedBy = "disciplina")
-	private List<Aula> aulas = new ArrayList<>();
+	private List<ProfessorDisciplina> professoresDisciplina = new ArrayList<>();
 
 	@Transient
 	private List<Curso> cursos = new ArrayList<>();
-	
+
 	public Disciplina() {
 	}
 
@@ -57,7 +48,7 @@ public class Disciplina implements Serializable {
 		this.nome = nome;
 		this.cargaHoraria = cargaHoraria;
 	}
-	
+
 	public Disciplina(Long id, String nome, int cargaHoraria, List<CursoDisciplina> cursos) {
 		super();
 		this.id = id;
@@ -65,7 +56,7 @@ public class Disciplina implements Serializable {
 		this.cargaHoraria = cargaHoraria;
 		this.cursosDisciplina = cursos;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -86,6 +77,14 @@ public class Disciplina implements Serializable {
 		return cargaHoraria;
 	}
 
+	public List<ProfessorDisciplina> getProfessoresDisciplina() {
+		return professoresDisciplina;
+	}
+
+	public void setProfessoresDisciplina(List<ProfessorDisciplina> professoresDisciplina) {
+		this.professoresDisciplina = professoresDisciplina;
+	}
+
 	public void setCargaHoraria(int cargaHoraria) {
 		this.cargaHoraria = cargaHoraria;
 	}
@@ -98,18 +97,6 @@ public class Disciplina implements Serializable {
 		this.cursosDisciplina = cursos;
 	}
 
-	public List<Professor> getProfessores() {
-		return professores;
-	}
-
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-
-	public List<Aula> getAulas() {
-		return aulas;
-	}
-	
 	public List<Curso> getCursos() {
 		return cursos;
 	}
