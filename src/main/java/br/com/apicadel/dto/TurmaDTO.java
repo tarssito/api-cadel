@@ -26,6 +26,9 @@ public class TurmaDTO implements Serializable {
 
 	private Curso curso;
 
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String turnoLetivo;
+
 	public TurmaDTO() {
 	}
 
@@ -35,6 +38,7 @@ public class TurmaDTO implements Serializable {
 		this.sigla = turma.getSigla();
 		this.semestre = turma.getSemestre();
 		this.ano = turma.getAno();
+		this.turnoLetivo = turma.getTurnoLetivo();
 	}
 
 	public Long getId() {
@@ -75,6 +79,14 @@ public class TurmaDTO implements Serializable {
 
 	public void setCurso(Curso curso) {
 		this.curso = curso;
+	}
+
+	public String getTurnoLetivo() {
+		return turnoLetivo;
+	}
+
+	public void setTurnoLetivo(String turnoLetivo) {
+		this.turnoLetivo = turnoLetivo;
 	}
 
 }

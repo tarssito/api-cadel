@@ -14,7 +14,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 
 	@Autowired
 	private CursoRepository cursoRepository;
-	
+
 	@Autowired
 	public TurmaService(TurmaRepository repository) {
 		super(repository);
@@ -23,7 +23,8 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 	public Turma fromDTO(TurmaDTO objDTO) {
 		Curso curso = cursoRepository.findById(objDTO.getCurso().getId()).get();
 		objDTO.setCurso(curso);
-		return new Turma(objDTO.getId(), objDTO.getSigla(), objDTO.getSemestre(), objDTO.getAno(), objDTO.getCurso());
+		return new Turma(objDTO.getId(), objDTO.getSigla(), objDTO.getSemestre(), objDTO.getAno(), objDTO.getCurso(),
+				objDTO.getTurnoLetivo());
 	}
 
 }

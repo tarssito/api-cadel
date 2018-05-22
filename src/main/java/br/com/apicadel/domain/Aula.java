@@ -10,11 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Aula implements Serializable {
@@ -31,37 +31,27 @@ public class Aula implements Serializable {
 	private Date horaFechamento;
 
 	@ManyToOne
-	@JoinColumn(name = "professor_id")
-	private Professor professor;
+	@JoinColumn(name = "professor_disciplina_id")
+	private ProfessorDisciplina professorDisciplina;
 
-	@ManyToOne
-	@JoinColumn(name = "disciplina_id")
-	private Disciplina disciplina;
+	@JsonIgnore
+	@OneToMany(mappedBy = "aula")
+	private List<FrequenciaAluno> frequenciasAlunos = new ArrayList<>();
 
-	@ManyToMany
-	@JoinTable(name = "frequencia_aluno", 
-		joinColumns = @JoinColumn(name = "aula_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
-	)
-	private List<Aluno> alunos = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "aula")
+	private List<FrequenciaTurma> frequenciasTurmas = new ArrayList<>();
 
-	@ManyToMany
-	@JoinTable(name = "frequencia_turma", 
-		joinColumns = @JoinColumn(name = "aula_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
-	)
-	private List<Turma> turmas = new ArrayList<>();
-	
 	public Aula() {
 	}
 
-	public Aula(Long id, Date data, Date horaAbertura, Date horaFechamento, Professor professor,
-			Disciplina disciplina) {
+	public Aula(Long id, Date data, Date horaAbertura, Date horaFechamento, ProfessorDisciplina professorDisciplina) {
 		super();
 		this.id = id;
 		this.data = data;
 		this.horaAbertura = horaAbertura;
 		this.horaFechamento = horaFechamento;
-		this.professor = professor;
-		this.disciplina = disciplina;
+		this.professorDisciplina = professorDisciplina;
 	}
 
 	public Long getId() {
@@ -96,36 +86,28 @@ public class Aula implements Serializable {
 		this.horaFechamento = horaFechamento;
 	}
 
-	public Professor getProfessor() {
-		return professor;
+	public ProfessorDisciplina getProfessorDisciplina() {
+		return professorDisciplina;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setProfessorDisciplina(ProfessorDisciplina professorDisciplina) {
+		this.professorDisciplina = professorDisciplina;
 	}
 
-	public Disciplina getDisciplina() {
-		return disciplina;
+	public List<FrequenciaAluno> getFrequenciasAlunos() {
+		return frequenciasAlunos;
 	}
 
-	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
+	public void setFrequenciasAlunos(List<FrequenciaAluno> frequenciasAlunos) {
+		this.frequenciasAlunos = frequenciasAlunos;
 	}
 
-	public List<Aluno> getAlunos() {
-		return alunos;
-	}
-	
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
+	public List<FrequenciaTurma> getFrequenciasTurmas() {
+		return frequenciasTurmas;
 	}
 
-	public List<Turma> getTurmas() {
-		return turmas;
-	}
-
-	public void setTurmas(List<Turma> turmas) {
-		this.turmas = turmas;
+	public void setFrequenciasTurmas(List<FrequenciaTurma> frequenciasTurmas) {
+		this.frequenciasTurmas = frequenciasTurmas;
 	}
 
 	@Override

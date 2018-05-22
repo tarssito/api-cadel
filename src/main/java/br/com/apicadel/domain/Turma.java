@@ -10,9 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,47 +20,47 @@ public class Turma implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false, unique = true, length = 10)
 	private String sigla;
-	
+
 	@Column(nullable = false, length = 1)
 	private String semestre;
-	
+
 	@Column(nullable = false, length = 4)
 	private String ano;
-	
+
 	@ManyToOne
-	@JoinColumn(name="curso_id")
+	@JoinColumn(name = "curso_id")
 	private Curso curso;
 
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "turma_aluno", 
-		joinColumns = @JoinColumn(name = "turma_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id")
-	)
-	private List<Aluno> alunos = new ArrayList<>();
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy="turmas")
-	private List<Professor> professores = new ArrayList<>();
+	private String turnoLetivo;
 
 	@JsonIgnore
-	@ManyToMany(mappedBy="turmas")
-	private List<Aula> aulas = new ArrayList<>();
-	
+	@OneToMany(mappedBy = "turma")
+	private List<AlunoTurma> alunosTurma = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "turma")
+	private List<ProfessorTurma> professoresTurma = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "turma")
+	private List<FrequenciaTurma> frequenciasTurma = new ArrayList<>();
+
 	public Turma() {
 	}
 
-	public Turma(Long id, String sigla, String semestre, String ano, Curso curso) {
+	public Turma(Long id, String sigla, String semestre, String ano, Curso curso, String turnoLetivo) {
 		super();
 		this.id = id;
 		this.sigla = sigla;
 		this.semestre = semestre;
 		this.ano = ano;
 		this.curso = curso;
+		this.turnoLetivo = turnoLetivo;
 	}
 
 	public Long getId() {
@@ -96,14 +95,6 @@ public class Turma implements Serializable {
 		this.ano = ano;
 	}
 
-	public void setAlunos(List<Aluno> alunos) {
-		this.alunos = alunos;
-	}
-
-	public void setProfessores(List<Professor> professores) {
-		this.professores = professores;
-	}
-
 	public Curso getCurso() {
 		return curso;
 	}
@@ -112,20 +103,36 @@ public class Turma implements Serializable {
 		this.curso = curso;
 	}
 
-	public List<Aluno> getAlunos() {
-		return alunos;
+	public String getTurnoLetivo() {
+		return turnoLetivo;
 	}
 
-	public List<Professor> getProfessores() {
-		return professores;
-	}
-	
-	public List<Aula> getAulas() {
-		return aulas;
+	public void setTurnoLetivo(String turnoLetivo) {
+		this.turnoLetivo = turnoLetivo;
 	}
 
-	public void setAulas(List<Aula> aulas) {
-		this.aulas = aulas;
+	public List<AlunoTurma> getAlunosTurma() {
+		return alunosTurma;
+	}
+
+	public void setAlunosTurma(List<AlunoTurma> alunosTurma) {
+		this.alunosTurma = alunosTurma;
+	}
+
+	public List<ProfessorTurma> getProfessoresTurma() {
+		return professoresTurma;
+	}
+
+	public void setProfessoresTurma(List<ProfessorTurma> professoresTurma) {
+		this.professoresTurma = professoresTurma;
+	}
+
+	public List<FrequenciaTurma> getFrequenciasTurma() {
+		return frequenciasTurma;
+	}
+
+	public void setFrequenciasTurma(List<FrequenciaTurma> frequenciasTurma) {
+		this.frequenciasTurma = frequenciasTurma;
 	}
 
 	@Override
