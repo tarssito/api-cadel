@@ -35,4 +35,8 @@ public class AlunoService extends GenericServiceImpl<Aluno, Long> {
 		}		
 	}
 	
+	public List<Aluno> findByMatricula(String matricula) {
+		return alunoRepository.findByMatriculaContaining(matricula);
+	}
+	
 }

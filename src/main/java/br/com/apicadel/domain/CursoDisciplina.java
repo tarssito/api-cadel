@@ -33,6 +33,13 @@ public class CursoDisciplina implements Serializable {
 	public CursoDisciplina() {
 	}
 
+	public CursoDisciplina(Long id, Curso curso, Disciplina disciplina) {
+		super();
+		this.id = id;
+		this.curso = curso;
+		this.disciplina = disciplina;
+	}
+
 	public Long getId() {
 		return id;
 	}

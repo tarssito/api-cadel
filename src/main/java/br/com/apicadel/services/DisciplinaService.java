@@ -79,4 +79,7 @@ public class DisciplinaService extends GenericServiceImpl<Disciplina, Long> {
 		}		
 	}
 	
+	public List<Disciplina> findByCurso(Long idCurso) {
+		return disciplinaRepository.findByCurso(idCurso);
+	}
 }
