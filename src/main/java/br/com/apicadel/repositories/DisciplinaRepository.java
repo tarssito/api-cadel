@@ -2,6 +2,8 @@ package br.com.apicadel.repositories;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,4 +20,7 @@ public interface DisciplinaRepository extends GenericRepository<Disciplina, Long
 	
 	@Transactional(readOnly=true)
 	public List<Disciplina> findByNomeContainingAndCargaHoraria(String nome, Integer cargaHoraria);
+	
+	@Query("select d from Disciplina d inner join d.cursosDisciplina cd where cd.curso.id = :idCurso")
+	public List<Disciplina> findByCurso(@Param("idCurso") Long idCurso);
 }

@@ -1,5 +1,6 @@
 package br.com.apicadel.resources;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.apicadel.domain.Aluno;
+import br.com.apicadel.domain.AlunoTurma;
+import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.dto.AlunoDTO;
 import br.com.apicadel.dto.TurmaDTO;
 import br.com.apicadel.resources.utils.CodigoMensagem;
 import br.com.apicadel.services.AlunoService;
+import br.com.apicadel.services.DisciplinaService;
 import br.com.apicadel.services.TurmaService;
 
 @RestController
@@ -37,10 +41,22 @@ public class TurmaResource {
 
 	@Autowired
 	private AlunoService alunoService;
-	
+
+	@Autowired
+	private DisciplinaService disciplinaService;
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Turma> find(@PathVariable Long id) {
 		Turma obj = service.find(id);
+
+		Disciplina disciplina = disciplinaService.find(obj.getDisciplina().getId());
+		obj.setDisciplina(disciplina);
+
+		for (AlunoTurma at : obj.getAlunosTurma()) {
+			Aluno aluno = alunoService.find(at.getAluno().getId());
+			obj.getAlunos().add(aluno);
+		}
+
 		return ResponseEntity.ok().body(obj);
 	}
 
@@ -59,27 +75,35 @@ public class TurmaResource {
 		return ResponseEntity.ok().body(CodigoMensagem.COD_UPDATE_SUCCESS.getCodigoMsg());
 	}
 
-	@RequestMapping(value= "alunos", method = RequestMethod.GET)
-	public ResponseEntity<String> findAlunosDualList() throws JSONException {
-		List<Aluno> list = alunoService.findAll();
-		list.sort(Comparator.comparing(Aluno::getNome));
-		List<AlunoDTO> listDTO = list.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());		
-		JSONObject json = new JSONObject();
+	@RequestMapping(value = "alunos", method = RequestMethod.GET)
+	public ResponseEntity<String> findAlunosDualList(
+			@RequestParam(value = "matricula", defaultValue = "") String matricula) throws JSONException {
+		List<Aluno> listAlunos = new ArrayList<>();
+		if (matricula.isEmpty()) {
+			listAlunos = alunoService.findAll();
+		} else {
+			listAlunos = alunoService.findByMatricula(matricula);
+		}
+
+		listAlunos.sort(Comparator.comparing(Aluno::getNome));
+		List<AlunoDTO> listDTO = listAlunos.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());
+		JSONArray jsonArray = new JSONArray();
 		for (AlunoDTO alunoDTO : listDTO) {
+			JSONObject json = new JSONObject();
 			json.put("id", alunoDTO.getId());
 			json.put("nome", alunoDTO.getNome());
 			json.put("cpf", alunoDTO.getCpf());
 			json.put("matricula", alunoDTO.getMatricula());
 			json.put("email", alunoDTO.getEmail());
 			json.put("sexo", alunoDTO.getSexo());
+			jsonArray.put(json);
 		}
-		JSONArray jsonArray = new JSONArray();
-		jsonArray.put(json);
+
 		JSONObject mainObj = new JSONObject();
 		mainObj.put("results", jsonArray);
 		return ResponseEntity.ok().body(mainObj.toString());
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		service.delete(id);

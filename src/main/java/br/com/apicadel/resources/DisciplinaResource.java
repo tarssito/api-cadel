@@ -81,6 +81,13 @@ public class DisciplinaResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@RequestMapping(value = "/curso", method = RequestMethod.GET)
+	public ResponseEntity<List<Disciplina>> findByCurso(@RequestParam(value = "id") Long idCurso) {
+		List<Disciplina> list = service.findByCurso(idCurso);
+		list.sort(Comparator.comparing(Disciplina::getNome));
+		return ResponseEntity.ok().body(list);
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<DisciplinaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

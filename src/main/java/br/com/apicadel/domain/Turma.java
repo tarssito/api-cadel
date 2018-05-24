@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -38,6 +39,10 @@ public class Turma implements Serializable {
 
 	private String turnoLetivo;
 
+	@ManyToOne
+	@JoinColumn(name = "disciplina_id")
+	private Disciplina disciplina;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "turma")
 	private List<AlunoTurma> alunosTurma = new ArrayList<>();
@@ -50,10 +55,13 @@ public class Turma implements Serializable {
 	@OneToMany(mappedBy = "turma")
 	private List<FrequenciaTurma> frequenciasTurma = new ArrayList<>();
 
+	@Transient
+	private List<Aluno> alunos = new ArrayList<>();
+
 	public Turma() {
 	}
 
-	public Turma(Long id, String sigla, String semestre, String ano, Curso curso, String turnoLetivo) {
+	public Turma(Long id, String sigla, String semestre, String ano, Curso curso, String turnoLetivo, Disciplina disciplina) {
 		super();
 		this.id = id;
 		this.sigla = sigla;
@@ -61,6 +69,20 @@ public class Turma implements Serializable {
 		this.ano = ano;
 		this.curso = curso;
 		this.turnoLetivo = turnoLetivo;
+		this.disciplina = disciplina;
+	}
+
+	public Turma(Long id, String sigla, String semestre, String ano, Curso curso, String turnoLetivo,
+			Disciplina disciplina, List<AlunoTurma> alunosTurma) {
+		super();
+		this.id = id;
+		this.sigla = sigla;
+		this.semestre = semestre;
+		this.ano = ano;
+		this.curso = curso;
+		this.turnoLetivo = turnoLetivo;
+		this.disciplina = disciplina;
+		this.alunosTurma = alunosTurma;
 	}
 
 	public Long getId() {
@@ -111,6 +133,14 @@ public class Turma implements Serializable {
 		this.turnoLetivo = turnoLetivo;
 	}
 
+	public Disciplina getDisciplina() {
+		return disciplina;
+	}
+
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
+	}
+
 	public List<AlunoTurma> getAlunosTurma() {
 		return alunosTurma;
 	}
@@ -133,6 +163,14 @@ public class Turma implements Serializable {
 
 	public void setFrequenciasTurma(List<FrequenciaTurma> frequenciasTurma) {
 		this.frequenciasTurma = frequenciasTurma;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
 	}
 
 	@Override

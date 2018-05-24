@@ -1,12 +1,16 @@
 package br.com.apicadel.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.apicadel.domain.Aluno;
 import br.com.apicadel.domain.Curso;
+import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Turma;
 
 public class TurmaDTO implements Serializable {
@@ -28,6 +32,10 @@ public class TurmaDTO implements Serializable {
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String turnoLetivo;
+
+	private Disciplina disciplina;
+
+	private List<Aluno> alunos = new ArrayList<>();
 
 	public TurmaDTO() {
 	}
@@ -87,6 +95,22 @@ public class TurmaDTO implements Serializable {
 
 	public void setTurnoLetivo(String turnoLetivo) {
 		this.turnoLetivo = turnoLetivo;
+	}
+
+	public Disciplina getDisciplina() {
+		return disciplina;
+	}
+
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
 	}
 
 }
