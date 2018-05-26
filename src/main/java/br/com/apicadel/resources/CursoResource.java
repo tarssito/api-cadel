@@ -1,5 +1,6 @@
 package br.com.apicadel.resources;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,16 +57,13 @@ public class CursoResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<CursoDTO>> findAll() {
-		List<Curso> list = service.findAll();
-		list.sort(Comparator.comparing(Curso::getNome));
-		List<CursoDTO> listDTO = list.stream().map(obj -> new CursoDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
-	
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ResponseEntity<List<CursoDTO>> search(@RequestBody CursoDTO objDTO) {
-		List<Curso> list = service.findByNome(objDTO.getNome());
+	public ResponseEntity<List<CursoDTO>> findAll(@RequestParam(value = "nome", defaultValue = "") String nome) {
+		List<Curso> list = new ArrayList<Curso>();
+		if (nome.isEmpty()) {
+			list = service.findAll();
+		} else {
+			list = service.findByNome(nome);
+		}
 		list.sort(Comparator.comparing(Curso::getNome));
 		List<CursoDTO> listDTO = list.stream().map(obj -> new CursoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
