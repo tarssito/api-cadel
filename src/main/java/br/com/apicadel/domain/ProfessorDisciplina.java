@@ -1,8 +1,6 @@
 package br.com.apicadel.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ProfessorDisciplina implements Serializable {
@@ -30,11 +25,14 @@ public class ProfessorDisciplina implements Serializable {
 	@JoinColumn(name = "disciplina_id")
 	private Disciplina disciplina;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "professorDisciplina")
-	private List<ProfessorTurma> turmasProfessor = new ArrayList<>();
-	
 	public ProfessorDisciplina() {
+	}
+
+	public ProfessorDisciplina(Long id, Professor professor, Disciplina disciplina) {
+		super();
+		this.id = id;
+		this.professor = professor;
+		this.disciplina = disciplina;
 	}
 
 	public Long getId() {

@@ -13,6 +13,7 @@ import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.CursoDisciplina;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
+import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.Perfil;
 import br.com.apicadel.domain.enums.TurnoLetivo;
@@ -20,6 +21,7 @@ import br.com.apicadel.repositories.AlunoRepository;
 import br.com.apicadel.repositories.CursoDisciplinaRepository;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
+import br.com.apicadel.repositories.ProfessorDisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorRepository;
 import br.com.apicadel.repositories.TurmaRepository;
 
@@ -44,6 +46,8 @@ public class ApiCadelApplication implements CommandLineRunner {
 	@Autowired
 	private ProfessorRepository professorRepository;
 
+	@Autowired
+	private ProfessorDisciplinaRepository professorDisciplinaRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCadelApplication.class, args);
@@ -85,6 +89,10 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		professorRepository.saveAll(Arrays.asList(prof1));
 
+		ProfessorDisciplina pd = new ProfessorDisciplina(null, prof1, laboratorioDeSoftware);
+		
+		professorDisciplinaRepository.saveAll(Arrays.asList(pd));
+		
 		Aluno aluno1 = new Aluno(null, "Tarssito Pereira", "03035268584", "042151013", "tarssito@hotmail.com", "M");
 		Aluno aluno2 = new Aluno(null, "Ítalo Brazil", "03035268583", "042151012", "italo@hotmail.com", "M");
 		Aluno aluno3 = new Aluno(null, "Ian Ítalo", "03035268582", "042151011", "ian@hotmail.com", "M");

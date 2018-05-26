@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
+import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.dto.ProfessorDTO;
 import br.com.apicadel.resources.utils.CodigoMensagem;
+import br.com.apicadel.services.DisciplinaService;
 import br.com.apicadel.services.ProfessorService;
 
 @RestController
@@ -28,11 +31,19 @@ public class ProfessorResource {
 
 	@Autowired
 	private ProfessorService service;
-
+	
+	@Autowired
+	private DisciplinaService disciplinaService;
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Professor> find(@PathVariable Long id) {
+	public ResponseEntity<ProfessorDTO> find(@PathVariable Long id) {
 		Professor obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+		for(ProfessorDisciplina pd: obj.getDisciplinasProfessor()) {
+			Disciplina disciplina = disciplinaService.find(pd.getDisciplina().getId());
+			obj.getDisciplinas().add(disciplina);
+		}
+		ProfessorDTO objDTO =  new ProfessorDTO(obj);
+		return ResponseEntity.ok().body(objDTO);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
