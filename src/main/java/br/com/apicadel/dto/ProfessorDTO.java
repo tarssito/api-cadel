@@ -1,12 +1,15 @@
 package br.com.apicadel.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 
 public class ProfessorDTO implements Serializable {
@@ -35,6 +38,8 @@ public class ProfessorDTO implements Serializable {
 
 	private Integer notificacaoEmail;
 
+	private List<Disciplina> disciplinas = new ArrayList<>();
+
 	public ProfessorDTO() {
 	}
 
@@ -46,6 +51,8 @@ public class ProfessorDTO implements Serializable {
 		this.matricula = professor.getMatricula();
 		this.email = professor.getEmail();
 		this.sexo = professor.getSexo();
+		this.notificacaoEmail = professor.getNotificacaoEmail();
+		this.disciplinas = professor.getDisciplinas();
 	}
 
 	public Long getId() {
@@ -102,6 +109,14 @@ public class ProfessorDTO implements Serializable {
 
 	public void setNotificacaoEmail(Integer notificacaoEmail) {
 		this.notificacaoEmail = notificacaoEmail;
+	}
+
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
 	}
 
 }

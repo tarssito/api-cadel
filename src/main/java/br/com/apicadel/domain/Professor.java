@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,7 +28,10 @@ public class Professor extends Pessoa {
 	@JsonIgnore
 	@OneToMany(mappedBy = "professor")
 	private List<ProfessorDisciplina> disciplinasProfessor = new ArrayList<>();
-	
+
+	@Transient
+	private List<Disciplina> disciplinas = new ArrayList<>();
+
 	public Professor() {
 	}
 
@@ -39,6 +43,15 @@ public class Professor extends Pessoa {
 		this.senha = senha;
 	}
 
+	public Professor(Long id, String nome, String cpf, String matricula, String email, String sexo, boolean ativo,
+			Integer notificacaoEmail, Perfil perfil, String senha, List<ProfessorDisciplina> disciplinasProfessor) {
+		super(id, nome, cpf, matricula, email, sexo);
+		this.notificacaoEmail = notificacaoEmail;
+		this.perfil = perfil.getCod();
+		this.senha = senha;
+		this.disciplinasProfessor = disciplinasProfessor;
+	}
+	
 	public Integer getNotificacaoEmail() {
 		return notificacaoEmail;
 	}
@@ -71,5 +84,12 @@ public class Professor extends Pessoa {
 		this.disciplinasProfessor = disciplinasProfessor;
 	}
 
-	
+	public List<Disciplina> getDisciplinas() {
+		return disciplinas;
+	}
+
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
+
 }
