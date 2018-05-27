@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -25,9 +27,17 @@ public class Professor extends Pessoa {
 
 	private String senha;
 
+	@ManyToOne
+	@JoinColumn(name = "curso_id")
+	private Curso curso;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "professor")
 	private List<ProfessorDisciplina> disciplinasProfessor = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "professor")
+	private List<Aula> aulas = new ArrayList<>();
 
 	@Transient
 	private List<Disciplina> disciplinas = new ArrayList<>();
@@ -36,22 +46,25 @@ public class Professor extends Pessoa {
 	}
 
 	public Professor(Long id, String nome, String cpf, String matricula, String email, String sexo, boolean ativo,
-			Integer notificacaoEmail, Perfil perfil, String senha) {
+			Integer notificacaoEmail, Perfil perfil, String senha, Curso curso) {
 		super(id, nome, cpf, matricula, email, sexo);
 		this.notificacaoEmail = notificacaoEmail;
 		this.perfil = perfil.getCod();
 		this.senha = senha;
+		this.curso = curso;
 	}
 
 	public Professor(Long id, String nome, String cpf, String matricula, String email, String sexo, boolean ativo,
-			Integer notificacaoEmail, Perfil perfil, String senha, List<ProfessorDisciplina> disciplinasProfessor) {
+			Integer notificacaoEmail, Perfil perfil, String senha, List<ProfessorDisciplina> disciplinasProfessor,
+			Curso curso) {
 		super(id, nome, cpf, matricula, email, sexo);
 		this.notificacaoEmail = notificacaoEmail;
 		this.perfil = perfil.getCod();
 		this.senha = senha;
+		this.curso = curso;
 		this.disciplinasProfessor = disciplinasProfessor;
 	}
-	
+
 	public Integer getNotificacaoEmail() {
 		return notificacaoEmail;
 	}
@@ -76,12 +89,28 @@ public class Professor extends Pessoa {
 		this.senha = senha;
 	}
 
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
 	public List<ProfessorDisciplina> getDisciplinasProfessor() {
 		return disciplinasProfessor;
 	}
 
 	public void setDisciplinasProfessor(List<ProfessorDisciplina> disciplinasProfessor) {
 		this.disciplinasProfessor = disciplinasProfessor;
+	}
+
+	public List<Aula> getAulas() {
+		return aulas;
+	}
+
+	public void setAulas(List<Aula> aulas) {
+		this.aulas = aulas;
 	}
 
 	public List<Disciplina> getDisciplinas() {

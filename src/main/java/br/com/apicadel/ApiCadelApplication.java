@@ -9,13 +9,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
+import br.com.apicadel.domain.Aula;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.CursoDisciplina;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.Turma;
+import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.Perfil;
+import br.com.apicadel.domain.enums.StatusAula;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
 import br.com.apicadel.repositories.CursoDisciplinaRepository;
@@ -30,16 +33,16 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
-		
+
 	@Autowired
 	private CursoRepository cursoRepository;
 
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
-		
+
 	@Autowired
 	private CursoDisciplinaRepository cursoDisciplinaRepository;
-	
+
 	@Autowired
 	private TurmaRepository turmaRepository;
 
@@ -48,7 +51,7 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProfessorDisciplinaRepository professorDisciplinaRepository;
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCadelApplication.class, args);
 	}
@@ -63,36 +66,36 @@ public class ApiCadelApplication implements CommandLineRunner {
 		Disciplina redes = new Disciplina(null, "Redes", 80);
 		Disciplina sd = new Disciplina(null, "Sistemas Distribuídos", 80);
 		Disciplina ihc = new Disciplina(null, "IHC", 80);
-		
+
 		Turma turma1 = new Turma(null, "SI01", "1", "2018", si, TurnoLetivo.MATUTINO.getTurno(), laboratorioDeSoftware);
 		Turma turma2 = new Turma(null, "CC01", "1", "2018", cc, TurnoLetivo.NOTURNO.getTurno(), laboratorioDeSoftware);
 
 		disciplinaRepository.saveAll(Arrays.asList(laboratorioDeSoftware, gestaoProjeto, redes, sd, ihc));
 		cursoRepository.saveAll(Arrays.asList(si, cc));
-		
+
 		CursoDisciplina cd1 = new CursoDisciplina(null, si, laboratorioDeSoftware);
 		CursoDisciplina cd2 = new CursoDisciplina(null, si, gestaoProjeto);
 		CursoDisciplina cd3 = new CursoDisciplina(null, si, redes);
 		CursoDisciplina cd4 = new CursoDisciplina(null, si, sd);
-		
+
 		CursoDisciplina cd5 = new CursoDisciplina(null, cc, laboratorioDeSoftware);
 		CursoDisciplina cd6 = new CursoDisciplina(null, cc, redes);
 		CursoDisciplina cd7 = new CursoDisciplina(null, cc, sd);
 		CursoDisciplina cd8 = new CursoDisciplina(null, cc, ihc);
-		
-		cursoDisciplinaRepository.saveAll(Arrays.asList(cd1, cd2, cd3, cd4, cd5, cd6,cd7, cd8));
-		
+
+		cursoDisciplinaRepository.saveAll(Arrays.asList(cd1, cd2, cd3, cd4, cd5, cd6, cd7, cd8));
+
 		turmaRepository.saveAll(Arrays.asList(turma1, turma2));
 
 		Professor prof1 = new Professor(null, "André Costa", "05049493929", "22145675", "andre@gmail.com", "M", true, 5,
-				Perfil.ADMIN, BCrypt.hashpw("admin", BCrypt.gensalt()));
+				Perfil.ADMIN, BCrypt.hashpw("admin", BCrypt.gensalt()), si);
 
 		professorRepository.saveAll(Arrays.asList(prof1));
 
 		ProfessorDisciplina pd = new ProfessorDisciplina(null, prof1, laboratorioDeSoftware);
-		
+
 		professorDisciplinaRepository.saveAll(Arrays.asList(pd));
-		
+
 		Aluno aluno1 = new Aluno(null, "Tarssito Pereira", "03035268584", "042151013", "tarssito@hotmail.com", "M");
 		Aluno aluno2 = new Aluno(null, "Ítalo Brazil", "03035268583", "042151012", "italo@hotmail.com", "M");
 		Aluno aluno3 = new Aluno(null, "Ian Ítalo", "03035268582", "042151011", "ian@hotmail.com", "M");

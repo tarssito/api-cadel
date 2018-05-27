@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,9 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.apicadel.domain.enums.DiaSemana;
+import br.com.apicadel.domain.enums.StatusAula;
+import br.com.apicadel.domain.enums.TurnoLetivo;
 
 @Entity
 public class Aula implements Serializable {
@@ -27,12 +33,16 @@ public class Aula implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data;
 
-	private Date horaAbertura;
-	private Date horaFechamento;
+	@Column(name = "codigo_dia")
+	private int dia;
 
-	@ManyToOne
-	@JoinColumn(name = "professor_disciplina_id")
-	private ProfessorDisciplina professorDisciplina;
+	private String turno;
+
+	private String horaAbertura;
+	private String horaFechamento;
+
+	@JsonIgnore
+	private int status;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "aula")
@@ -40,18 +50,55 @@ public class Aula implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "aula")
-	private List<FrequenciaTurma> frequenciasTurmas = new ArrayList<>();
+	private List<AulaTurma> turmasAula = new ArrayList<>();
+
+	@Transient
+	private List<Turma> turmas = new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name = "curso_id")
+	private Curso curso;
+
+	@ManyToOne
+	@JoinColumn(name = "professor_id")
+	private Professor professor;
+
+	@ManyToOne
+	@JoinColumn(name = "disciplina_id")
+	private Disciplina disciplina;
 
 	public Aula() {
 	}
 
-	public Aula(Long id, Date data, Date horaAbertura, Date horaFechamento, ProfessorDisciplina professorDisciplina) {
+	public Aula(Long id, Date data, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
+			Curso curso, Professor professor, Disciplina disciplina, StatusAula status) {
 		super();
 		this.id = id;
 		this.data = data;
+		this.dia = dia.getCodDiaSemana();
+		this.turno = turno.getTurno();
 		this.horaAbertura = horaAbertura;
 		this.horaFechamento = horaFechamento;
-		this.professorDisciplina = professorDisciplina;
+		this.curso = curso;
+		this.professor = professor;
+		this.disciplina = disciplina;
+		this.status = status.getCodStatus();
+	}
+
+	public Aula(Long id, Date data, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
+			Curso curso, Professor professor, Disciplina disciplina, StatusAula status, List<AulaTurma> turmasAula) {
+		super();
+		this.id = id;
+		this.data = data;
+		this.dia = dia.getCodDiaSemana();
+		this.turno = turno.getTurno();
+		this.horaAbertura = horaAbertura;
+		this.horaFechamento = horaFechamento;
+		this.curso = curso;
+		this.professor = professor;
+		this.disciplina = disciplina;
+		this.status = status.getCodStatus();
+		this.turmasAula = turmasAula;
 	}
 
 	public Long getId() {
@@ -66,32 +113,80 @@ public class Aula implements Serializable {
 		return data;
 	}
 
+	public int getDia() {
+		return dia;
+	}
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public String getTurno() {
+		return turno;
+	}
+
+	public void setTurno(String turno) {
+		this.turno = turno;
+	}
+
 	public void setData(Date data) {
 		this.data = data;
 	}
 
-	public Date getHoraAbertura() {
+	public String getHoraAbertura() {
 		return horaAbertura;
 	}
 
-	public void setHoraAbertura(Date horaAbertura) {
+	public void setHoraAbertura(String horaAbertura) {
 		this.horaAbertura = horaAbertura;
 	}
 
-	public Date getHoraFechamento() {
+	public String getHoraFechamento() {
 		return horaFechamento;
 	}
 
-	public void setHoraFechamento(Date horaFechamento) {
+	public void setHoraFechamento(String horaFechamento) {
 		this.horaFechamento = horaFechamento;
 	}
 
-	public ProfessorDisciplina getProfessorDisciplina() {
-		return professorDisciplina;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setProfessorDisciplina(ProfessorDisciplina professorDisciplina) {
-		this.professorDisciplina = professorDisciplina;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public void setProfessor(Professor professor) {
+		this.professor = professor;
+	}
+
+	public Disciplina getDisciplina() {
+		return disciplina;
+	}
+
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public boolean isAberta() {
+		return StatusAula.toEnum(this.status).equals(StatusAula.ABERTA);
+	}
+
+	public boolean isFechada() {
+		return StatusAula.toEnum(this.status).equals(StatusAula.FECHADA);
 	}
 
 	public List<FrequenciaAluno> getFrequenciasAlunos() {
@@ -102,12 +197,20 @@ public class Aula implements Serializable {
 		this.frequenciasAlunos = frequenciasAlunos;
 	}
 
-	public List<FrequenciaTurma> getFrequenciasTurmas() {
-		return frequenciasTurmas;
+	public List<AulaTurma> getTurmasAula() {
+		return turmasAula;
 	}
 
-	public void setFrequenciasTurmas(List<FrequenciaTurma> frequenciasTurmas) {
-		this.frequenciasTurmas = frequenciasTurmas;
+	public void setTurmasAula(List<AulaTurma> turmasAula) {
+		this.turmasAula = turmasAula;
+	}
+
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	@Override

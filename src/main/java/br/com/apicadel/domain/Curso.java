@@ -28,6 +28,10 @@ public class Curso implements Serializable {
 	@OneToMany(mappedBy = "curso")
 	private List<CursoDisciplina> disciplinas = new ArrayList<>();
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "curso")
+	private List<Aula> aulas = new ArrayList<>();
+
 	public Curso() {
 	}
 
@@ -59,6 +63,14 @@ public class Curso implements Serializable {
 
 	public void setDisciplinas(List<CursoDisciplina> cursos) {
 		this.disciplinas = cursos;
+	}
+
+	public List<Aula> getAulas() {
+		return aulas;
+	}
+
+	public void setAulas(List<Aula> aulas) {
+		this.aulas = aulas;
 	}
 
 	@Override

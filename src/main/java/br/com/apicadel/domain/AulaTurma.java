@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class FrequenciaTurma implements Serializable {
+public class AulaTurma implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -25,10 +25,10 @@ public class FrequenciaTurma implements Serializable {
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
 
-	public FrequenciaTurma() {
+	public AulaTurma() {
 	}
 
-	public FrequenciaTurma(Long id, Aula aula, Turma turma, boolean presenca) {
+	public AulaTurma(Long id, Aula aula, Turma turma, boolean presenca) {
 		super();
 		this.id = id;
 		this.aula = aula;
@@ -75,7 +75,7 @@ public class FrequenciaTurma implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FrequenciaTurma other = (FrequenciaTurma) obj;
+		AulaTurma other = (AulaTurma) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

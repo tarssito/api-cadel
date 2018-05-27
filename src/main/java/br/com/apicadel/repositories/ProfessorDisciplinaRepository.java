@@ -11,4 +11,5 @@ import br.com.apicadel.domain.ProfessorDisciplina;
 public interface ProfessorDisciplinaRepository extends GenericRepository<ProfessorDisciplina, Long> {
 
 	public List<ProfessorDisciplina> findByProfessor(Professor professor);
+
 }

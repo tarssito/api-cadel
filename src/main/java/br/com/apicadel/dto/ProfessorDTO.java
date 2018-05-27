@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 
@@ -38,6 +40,9 @@ public class ProfessorDTO implements Serializable {
 
 	private Integer notificacaoEmail;
 
+	@NotNull(message = "Preenchimento obrigatório")
+	private Curso curso;
+
 	private List<Disciplina> disciplinas = new ArrayList<>();
 
 	public ProfessorDTO() {
@@ -52,6 +57,7 @@ public class ProfessorDTO implements Serializable {
 		this.email = professor.getEmail();
 		this.sexo = professor.getSexo();
 		this.notificacaoEmail = professor.getNotificacaoEmail();
+		this.curso = professor.getCurso();
 		this.disciplinas = professor.getDisciplinas();
 	}
 
@@ -109,6 +115,14 @@ public class ProfessorDTO implements Serializable {
 
 	public void setNotificacaoEmail(Integer notificacaoEmail) {
 		this.notificacaoEmail = notificacaoEmail;
+	}
+
+	public Curso getCurso() {
+		return curso;
+	}
+
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
 	public List<Disciplina> getDisciplinas() {

@@ -7,11 +7,13 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.enums.Perfil;
 import br.com.apicadel.dto.ProfessorDTO;
+import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorDisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorRepository;
@@ -26,6 +28,9 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 	
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
+	
+	@Autowired
+	private CursoRepository cursoRepository;
 	
 	@Autowired
 	public ProfessorService(ProfessorRepository repository) {
@@ -51,6 +56,8 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 	}
 	
 	public Professor fromDTO(ProfessorDTO objDTO) {
+		Curso curso = cursoRepository.findById(objDTO.getCurso().getId()).get();
+		
 		List<Disciplina> disciplinas = objDTO.getDisciplinas();
 		List<ProfessorDisciplina> newDisciplinasProfessor = new ArrayList<>();
 		for (Disciplina disciplina : disciplinas) {
@@ -61,7 +68,7 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 		}
 		return new Professor(objDTO.getId(), objDTO.getNome(), objDTO.getCpf(), objDTO.getMatricula(),
 				objDTO.getEmail(), objDTO.getSexo(), true, objDTO.getNotificacaoEmail(), Perfil.ADMIN,
-				BCrypt.hashpw("admin", BCrypt.gensalt()), newDisciplinasProfessor);
+				BCrypt.hashpw("admin", BCrypt.gensalt()), newDisciplinasProfessor, curso);
 	}
 
 	public ProfessorDTO fromObject(Professor obj) {

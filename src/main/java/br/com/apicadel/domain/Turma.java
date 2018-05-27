@@ -53,7 +53,7 @@ public class Turma implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "turma")
-	private List<FrequenciaTurma> frequenciasTurma = new ArrayList<>();
+	private List<AulaTurma> frequenciasTurma = new ArrayList<>();
 
 	@Transient
 	private List<Aluno> alunos = new ArrayList<>();
@@ -157,11 +157,11 @@ public class Turma implements Serializable {
 		this.professoresTurma = professoresTurma;
 	}
 
-	public List<FrequenciaTurma> getFrequenciasTurma() {
+	public List<AulaTurma> getFrequenciasTurma() {
 		return frequenciasTurma;
 	}
 
-	public void setFrequenciasTurma(List<FrequenciaTurma> frequenciasTurma) {
+	public void setFrequenciasTurma(List<AulaTurma> frequenciasTurma) {
 		this.frequenciasTurma = frequenciasTurma;
 	}
 
