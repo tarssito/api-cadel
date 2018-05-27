@@ -9,7 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,20 +30,36 @@ public class Aula implements Serializable {
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data;
 
+	@ManyToOne
+	@JoinColumn(name = "classe_id")
+	private Classe classe;
+
 	private int status;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "aula")
 	private List<FrequenciaAluno> frequenciasAlunos = new ArrayList<>();
-	
+
+	@Transient
+	private List<Aluno> alunos = new ArrayList<>();
+
 	public Aula() {
 	}
 
-	public Aula(Long id, Date data, StatusAula status) {
+	public Aula(Long id, Date data, Classe classe, StatusAula status) {
 		super();
 		this.id = id;
 		this.data = data;
+		this.classe = classe;
 		this.status = status.getCodStatus();
+	}
+
+	public Aula(Long id, Classe classe, StatusAula status, List<FrequenciaAluno> frequenciasAlunos) {
+		super();
+		this.id = id;
+		this.classe = classe;
+		this.status = status.getCodStatus();
+		this.frequenciasAlunos = frequenciasAlunos;
 	}
 
 	public Long getId() {
@@ -59,12 +78,36 @@ public class Aula implements Serializable {
 		this.data = data;
 	}
 
+	public Classe getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Classe classe) {
+		this.classe = classe;
+	}
+
 	public int getStatus() {
 		return status;
 	}
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public List<FrequenciaAluno> getFrequenciasAlunos() {
+		return frequenciasAlunos;
+	}
+
+	public void setFrequenciasAlunos(List<FrequenciaAluno> frequenciasAlunos) {
+		this.frequenciasAlunos = frequenciasAlunos;
+	}
+
+	public List<Aluno> getAlunos() {
+		return alunos;
+	}
+
+	public void setAlunos(List<Aluno> alunos) {
+		this.alunos = alunos;
 	}
 
 	@Override

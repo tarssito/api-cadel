@@ -2,7 +2,6 @@ package br.com.apicadel.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -58,7 +57,7 @@ public class Classe implements Serializable {
 	public Classe() {
 	}
 
-	public Classe(Long id, Date data, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
+	public Classe(Long id, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
 			Curso curso, Professor professor, Disciplina disciplina) {
 		super();
 		this.id = id;
@@ -71,7 +70,7 @@ public class Classe implements Serializable {
 		this.disciplina = disciplina;
 	}
 
-	public Classe(Long id, Date data, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
+	public Classe(Long id, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
 			Curso curso, Professor professor, Disciplina disciplina, List<ClasseTurma> turmasClasse) {
 		super();
 		this.id = id;

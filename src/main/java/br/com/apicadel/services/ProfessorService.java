@@ -13,6 +13,7 @@ import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.enums.Perfil;
 import br.com.apicadel.dto.ProfessorDTO;
+import br.com.apicadel.dto.UserDTO;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorDisciplinaRepository;
@@ -68,11 +69,11 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 		}
 		return new Professor(objDTO.getId(), objDTO.getNome(), objDTO.getCpf(), objDTO.getMatricula(),
 				objDTO.getEmail(), objDTO.getSexo(), true, objDTO.getNotificacaoEmail(), Perfil.ADMIN,
-				BCrypt.hashpw("admin", BCrypt.gensalt()), newDisciplinasProfessor, curso);
+				BCrypt.hashpw(objDTO.getCpf(), BCrypt.gensalt()), newDisciplinasProfessor, curso);
 	}
 
-	public ProfessorDTO fromObject(Professor obj) {
-		return new ProfessorDTO(obj);
+	public UserDTO fromUser(Professor obj) {
+		return new UserDTO(obj);
 	}
 
 	public Professor authenticator(Professor obj) {

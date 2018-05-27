@@ -62,7 +62,7 @@ public class FrequenciaAluno implements Serializable {
 		this.aluno = aluno;
 	}
 
-	public boolean isPresenca() {
+	public boolean getPresenca() {
 		return presenca;
 	}
 

@@ -1,7 +1,5 @@
 package br.com.apicadel.services;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +28,7 @@ import br.com.apicadel.repositories.ProfessorRepository;
 public class ClasseService extends GenericServiceImpl<Classe, Long> {
 
 	private ClasseRepository classeRepository;
-	
+
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -82,27 +80,18 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 			ct.setTurma(turma);
 			newTurmasClasse.add(ct);
 		}
-		
-		return new Classe(objDTO.getId(), getCurrentDate(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(), curso,
+
+		return new Classe(objDTO.getId(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(), curso,
 				professor, disciplina, newTurmasClasse);
 	}
 
-	public List<Classe> findClasseDiaProfessor(Long idProfessor){
+	public List<Classe> findClasseDiaProfessor(Long idProfessor) {
 		return classeRepository.findClasseDiaProfessor(idProfessor, getCurrentDay());
-	}
-	
-	/**
-	 * Método que retorna data atual, formato: Y-m-d HH:mm:ss
-	 * @return
-	 */
-	public Date getCurrentDate() {
-		LocalDate dataDeInscricao = LocalDate.now();
-		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		return data;
 	}
 
 	/**
 	 * Método que retorna o código do dia da semana, de acordo com a data atual
+	 * 
 	 * @return
 	 */
 	public int getCurrentDay() {
@@ -111,5 +100,5 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 		c.setTime(d);
 		return c.get(Calendar.DAY_OF_WEEK);
 	}
-	
+
 }

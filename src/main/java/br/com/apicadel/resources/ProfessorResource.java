@@ -21,6 +21,7 @@ import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.dto.ProfessorDTO;
+import br.com.apicadel.dto.UserDTO;
 import br.com.apicadel.resources.utils.CodigoMensagem;
 import br.com.apicadel.services.DisciplinaService;
 import br.com.apicadel.services.ProfessorService;
@@ -94,11 +95,11 @@ public class ProfessorResource {
 	}
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
-	public ResponseEntity<ProfessorDTO> auth(@RequestBody Professor obj) {
+	public ResponseEntity<UserDTO> auth(@RequestBody Professor obj) {
 		Professor professor = service.authenticator(obj);
 		if (professor != null) {
-			ProfessorDTO professorDTO = service.fromObject(professor);
-			return ResponseEntity.ok().body(professorDTO);
+			UserDTO user = service.fromUser(professor);
+			return ResponseEntity.ok().body(user);
 		} else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
