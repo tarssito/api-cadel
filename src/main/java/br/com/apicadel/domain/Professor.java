@@ -37,7 +37,7 @@ public class Professor extends Pessoa {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "professor")
-	private List<Aula> aulas = new ArrayList<>();
+	private List<Classe> classes = new ArrayList<>();
 
 	@Transient
 	private List<Disciplina> disciplinas = new ArrayList<>();
@@ -105,12 +105,12 @@ public class Professor extends Pessoa {
 		this.disciplinasProfessor = disciplinasProfessor;
 	}
 
-	public List<Aula> getAulas() {
-		return aulas;
+	public List<Classe> getClasses() {
+		return classes;
 	}
 
-	public void setAulas(List<Aula> aulas) {
-		this.aulas = aulas;
+	public void setClasses(List<Classe> classes) {
+		this.classes = classes;
 	}
 
 	public List<Disciplina> getDisciplinas() {

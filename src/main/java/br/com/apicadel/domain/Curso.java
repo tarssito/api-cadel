@@ -30,7 +30,7 @@ public class Curso implements Serializable {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "curso")
-	private List<Aula> aulas = new ArrayList<>();
+	private List<Classe> classes = new ArrayList<>();
 
 	public Curso() {
 	}
@@ -65,12 +65,12 @@ public class Curso implements Serializable {
 		this.disciplinas = cursos;
 	}
 
-	public List<Aula> getAulas() {
-		return aulas;
+	public List<Classe> getClasses() {
+		return classes;
 	}
 
-	public void setAulas(List<Aula> aulas) {
-		this.aulas = aulas;
+	public void setClasses(List<Classe> classes) {
+		this.classes = classes;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AulaTurma implements Serializable {
+public class ClasseTurma implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -18,20 +18,20 @@ public class AulaTurma implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "aula_id")
-	private Aula aula;
+	@JoinColumn(name = "classe_id")
+	private Classe classe;
 
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
 
-	public AulaTurma() {
+	public ClasseTurma() {
 	}
 
-	public AulaTurma(Long id, Aula aula, Turma turma) {
+	public ClasseTurma(Long id, Classe classe, Turma turma) {
 		super();
 		this.id = id;
-		this.aula = aula;
+		this.classe = classe;
 		this.turma = turma;
 	}
 
@@ -43,12 +43,12 @@ public class AulaTurma implements Serializable {
 		this.id = id;
 	}
 
-	public Aula getAula() {
-		return aula;
+	public Classe getClasse() {
+		return classe;
 	}
 
-	public void setAula(Aula aula) {
-		this.aula = aula;
+	public void setClasse(Classe classe) {
+		this.classe = classe;
 	}
 
 	public Turma getTurma() {
@@ -75,7 +75,7 @@ public class AulaTurma implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AulaTurma other = (AulaTurma) obj;
+		ClasseTurma other = (ClasseTurma) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

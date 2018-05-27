@@ -6,13 +6,13 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import br.com.apicadel.domain.Aula;
+import br.com.apicadel.domain.Classe;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.Turma;
 
-public class AulaDTO implements Serializable {
+public class ClasseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -40,20 +40,20 @@ public class AulaDTO implements Serializable {
 
 	private List<Turma> turmas = new ArrayList<>();
 
-	public AulaDTO() {
+	public ClasseDTO() {
 	}
 
-	public AulaDTO(Aula aula) {
+	public ClasseDTO(Classe classe) {
 		super();
-		this.id = aula.getId();
-		this.dia = aula.getDia();
-		this.turno = aula.getTurno();
-		this.horaAbertura = aula.getHoraAbertura();
-		this.horaFechamento = aula.getHoraFechamento();
-		this.curso = aula.getCurso();
-		this.professor = aula.getProfessor();
-		this.disciplina = aula.getDisciplina();
-		this.turmas = aula.getTurmas();
+		this.id = classe.getId();
+		this.dia = classe.getDia();
+		this.turno = classe.getTurno();
+		this.horaAbertura = classe.getHoraAbertura();
+		this.horaFechamento = classe.getHoraFechamento();
+		this.curso = classe.getCurso();
+		this.professor = classe.getProfessor();
+		this.disciplina = classe.getDisciplina();
+		this.turmas = classe.getTurmas();
 	}
 
 	public Long getId() {

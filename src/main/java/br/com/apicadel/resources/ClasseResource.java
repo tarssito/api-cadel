@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.apicadel.domain.Aula;
-import br.com.apicadel.domain.AulaTurma;
+import br.com.apicadel.domain.Classe;
+import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Turma;
-import br.com.apicadel.dto.AulaDTO;
+import br.com.apicadel.dto.ClasseDTO;
 import br.com.apicadel.resources.utils.CodigoMensagem;
-import br.com.apicadel.services.AulaService;
+import br.com.apicadel.services.ClasseService;
 import br.com.apicadel.services.TurmaService;
 
 @RestController
-@RequestMapping(value = "/aulas")
-public class AulaResource {
+@RequestMapping(value = "/classes")
+public class ClasseResource {
 
 	@Autowired
-	private AulaService service;
+	private ClasseService service;
 
 	@Autowired
 	private TurmaService turmaService;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Aula> find(@PathVariable Long id) {
-		Aula obj = service.find(id);
-		for (AulaTurma at : obj.getTurmasAula()) {
-			Turma turma = turmaService.find(at.getTurma().getId());
+	public ResponseEntity<Classe> find(@PathVariable Long id) {
+		Classe obj = service.find(id);
+		for (ClasseTurma ct : obj.getTurmasClasse()) {
+			Turma turma = turmaService.find(ct.getTurma().getId());
 			Turma newTurma = new Turma();
 			newTurma.setId(turma.getId());
 			newTurma.setSigla(turma.getSigla());
@@ -48,15 +48,15 @@ public class AulaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<String> insert(@Valid @RequestBody AulaDTO objDTO) {
-		Aula obj = service.fromDTO(objDTO);
+	public ResponseEntity<String> insert(@Valid @RequestBody ClasseDTO objDTO) {
+		Classe obj = service.fromDTO(objDTO);
 		service.save(obj);
 		return ResponseEntity.ok().body(CodigoMensagem.COD_INSERT_SUCCESS.getCodigoMsg());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<String> update(@Valid @RequestBody AulaDTO objDTO, @PathVariable Long id) {
-		Aula obj = service.fromDTO(objDTO);
+	public ResponseEntity<String> update(@Valid @RequestBody ClasseDTO objDTO, @PathVariable Long id) {
+		Classe obj = service.fromDTO(objDTO);
 		obj.setId(id);
 		service.save(obj);
 		return ResponseEntity.ok().body(CodigoMensagem.COD_UPDATE_SUCCESS.getCodigoMsg());
@@ -69,28 +69,28 @@ public class AulaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<AulaDTO>> findAll() {
-		List<Aula> list = service.findAll();
-		list.sort(Comparator.comparing(Aula::getData));
-		List<AulaDTO> listDTO = list.stream().map(obj -> new AulaDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<ClasseDTO>> findAll() {
+		List<Classe> list = service.findAll();
+		list.sort(Comparator.comparing(Classe::getDia));
+		List<ClasseDTO> listDTO = list.stream().map(obj -> new ClasseDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public ResponseEntity<Page<AulaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<ClasseDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		Page<Aula> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<AulaDTO> listDTO = list.map(obj -> new AulaDTO(obj));
+		Page<Classe> list = service.findPage(page, linesPerPage, orderBy, direction);
+		Page<ClasseDTO> listDTO = list.map(obj -> new ClasseDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@RequestMapping(value = "dashboard", method = RequestMethod.GET)
-	public ResponseEntity<List<AulaDTO>> findAlunosDualList(@RequestParam(value = "idProfessor") Long idProfessor) {
-		List<Aula> list = service.findAulasAbertasProfessor(idProfessor);
-		list.sort(Comparator.comparing(Aula::getData));
-		List<AulaDTO> listDTO = list.stream().map(obj -> new AulaDTO(obj)).collect(Collectors.toList());
+	public ResponseEntity<List<ClasseDTO>> findAlunosDualList(@RequestParam(value = "idProfessor") Long idProfessor) {
+		List<Classe> list = service.findClasseDiaProfessor(idProfessor);
+		list.sort(Comparator.comparing(Classe::getDia));
+		List<ClasseDTO> listDTO = list.stream().map(obj -> new ClasseDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 }

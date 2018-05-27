@@ -77,7 +77,10 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 
 	public Professor authenticator(Professor obj) {
 		Professor professor = professorRepository.authenticator(obj.getMatricula());
-		return BCrypt.checkpw(obj.getSenha(), professor.getSenha()) ? professor : null;
+		if (professor != null && BCrypt.checkpw(obj.getSenha(), professor.getSenha())) {
+			return professor;
+		}
+		return null;
 	}
 
 	public List<Professor> search(ProfessorDTO professor) {

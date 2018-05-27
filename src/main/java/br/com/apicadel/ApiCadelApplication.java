@@ -12,8 +12,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
-import br.com.apicadel.domain.Aula;
-import br.com.apicadel.domain.AulaTurma;
+import br.com.apicadel.domain.Classe;
+import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.CursoDisciplina;
 import br.com.apicadel.domain.Disciplina;
@@ -22,11 +22,10 @@ import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.Perfil;
-import br.com.apicadel.domain.enums.StatusAula;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
-import br.com.apicadel.repositories.AulaRepository;
-import br.com.apicadel.repositories.AulaTurmaRepository;
+import br.com.apicadel.repositories.ClasseRepository;
+import br.com.apicadel.repositories.ClasseTurmaRepository;
 import br.com.apicadel.repositories.CursoDisciplinaRepository;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
@@ -38,10 +37,10 @@ import br.com.apicadel.repositories.TurmaRepository;
 public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
-	private AulaRepository aulaRepository;
+	private ClasseRepository classeRepository;
 
 	@Autowired
-	private AulaTurmaRepository aulaTurmaRepository;
+	private ClasseTurmaRepository classeTurmaRepository;
 
 	@Autowired
 	private AlunoRepository alunoRepository;
@@ -172,60 +171,52 @@ public class ApiCadelApplication implements CommandLineRunner {
 				aluno10, aluno11, aluno12));
 
 		/**
-		 * Dump de aula
+		 * Dump de classe
 		 */
 		LocalDate dataDeInscricao = LocalDate.now();
 		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-		Aula a1 = new Aula(null, data, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof1,
-				laboratorioDeSoftware, StatusAula.ABERTA);
-		Aula a2 = new Aula(null, data, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof1,
-				laboratorioDeSoftware, StatusAula.ABERTA);
+		Classe a1 = new Classe(null, data, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof1,
+				laboratorioDeSoftware);
+		Classe a2 = new Classe(null, data, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof1,
+				laboratorioDeSoftware);
 
-		Aula a3 = new Aula(null, data, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof4, gestaoProjeto,
-				StatusAula.ABERTA);
-		Aula a4 = new Aula(null, data, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof4, gestaoProjeto,
-				StatusAula.ABERTA);
+		Classe a3 = new Classe(null, data, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof4, gestaoProjeto);
+		Classe a4 = new Classe(null, data, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof4, gestaoProjeto);
 
-		Aula a5 = new Aula(null, data, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof2, redes,
-				StatusAula.ABERTA);
-		Aula a6 = new Aula(null, data, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof2, redes,
-				StatusAula.ABERTA);
+		Classe a5 = new Classe(null, data, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof2, redes);
+		Classe a6 = new Classe(null, data, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof2, redes);
 
-		Aula a7 = new Aula(null, data, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof5, ihc,
-				StatusAula.ABERTA);
-		Aula a8 = new Aula(null, data, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof5, ihc,
-				StatusAula.ABERTA);
+		Classe a7 = new Classe(null, data, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof5, ihc);
+		Classe a8 = new Classe(null, data, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof5, ihc);
 
-		Aula a9 = new Aula(null, data, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof3, sd,
-				StatusAula.ABERTA);
-		Aula a10 = new Aula(null, data, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof3, sd,
-				StatusAula.ABERTA);
+		Classe a9 = new Classe(null, data, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof3, sd);
+		Classe a10 = new Classe(null, data, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof3, sd);
 
-		aulaRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10));
+		classeRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10));
 
-		AulaTurma at1 = new AulaTurma(null, a1, turma1);
-		AulaTurma at2 = new AulaTurma(null, a1, turma2);
-		AulaTurma at3 = new AulaTurma(null, a2, turma1);
-		AulaTurma at4 = new AulaTurma(null, a2, turma2);
+		ClasseTurma at1 = new ClasseTurma(null, a1, turma1);
+		ClasseTurma at2 = new ClasseTurma(null, a1, turma2);
+		ClasseTurma at3 = new ClasseTurma(null, a2, turma1);
+		ClasseTurma at4 = new ClasseTurma(null, a2, turma2);
 
-		AulaTurma at5 = new AulaTurma(null, a3, turma3);
-		AulaTurma at7 = new AulaTurma(null, a4, turma3);
+		ClasseTurma at5 = new ClasseTurma(null, a3, turma3);
+		ClasseTurma at7 = new ClasseTurma(null, a4, turma3);
 
-		AulaTurma at9 = new AulaTurma(null, a5, turma5);
-		AulaTurma at10 = new AulaTurma(null, a6, turma6);
-		AulaTurma at11 = new AulaTurma(null, a5, turma5);
-		AulaTurma at12 = new AulaTurma(null, a6, turma6);
+		ClasseTurma at9 = new ClasseTurma(null, a5, turma5);
+		ClasseTurma at10 = new ClasseTurma(null, a6, turma6);
+		ClasseTurma at11 = new ClasseTurma(null, a5, turma5);
+		ClasseTurma at12 = new ClasseTurma(null, a6, turma6);
 
-		AulaTurma at13 = new AulaTurma(null, a7, turma13);
-		AulaTurma at14 = new AulaTurma(null, a8, turma13);
+		ClasseTurma at13 = new ClasseTurma(null, a7, turma13);
+		ClasseTurma at14 = new ClasseTurma(null, a8, turma13);
 
-		AulaTurma at15 = new AulaTurma(null, a5, turma7);
-		AulaTurma at16 = new AulaTurma(null, a6, turma8);
-		AulaTurma at17 = new AulaTurma(null, a5, turma7);
-		AulaTurma at18 = new AulaTurma(null, a6, turma8);
+		ClasseTurma at15 = new ClasseTurma(null, a5, turma7);
+		ClasseTurma at16 = new ClasseTurma(null, a6, turma8);
+		ClasseTurma at17 = new ClasseTurma(null, a5, turma7);
+		ClasseTurma at18 = new ClasseTurma(null, a6, turma8);
 
-		aulaTurmaRepository
+		classeTurmaRepository
 				.saveAll(Arrays.asList(at1, at2, at3, at4, at5, at7, at9, at10, at11, at12, at13, at14, at15, at16, at17, at18));
 	}
 

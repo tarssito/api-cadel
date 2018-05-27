@@ -11,26 +11,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.apicadel.domain.Aula;
-import br.com.apicadel.domain.AulaTurma;
+import br.com.apicadel.domain.Classe;
+import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.Disciplina;
 import br.com.apicadel.domain.Professor;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.DiaSemana;
-import br.com.apicadel.domain.enums.StatusAula;
 import br.com.apicadel.domain.enums.TurnoLetivo;
-import br.com.apicadel.dto.AulaDTO;
-import br.com.apicadel.repositories.AulaRepository;
-import br.com.apicadel.repositories.AulaTurmaRepository;
+import br.com.apicadel.dto.ClasseDTO;
+import br.com.apicadel.repositories.ClasseRepository;
+import br.com.apicadel.repositories.ClasseTurmaRepository;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorRepository;
 
 @Service
-public class AulaService extends GenericServiceImpl<Aula, Long> {
+public class ClasseService extends GenericServiceImpl<Classe, Long> {
 
-	private AulaRepository aulaRepository;
+	private ClasseRepository classeRepository;
 	
 	@Autowired
 	private CursoRepository cursoRepository;
@@ -42,32 +41,32 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 	private DisciplinaRepository disciplinaRepository;
 
 	@Autowired
-	private AulaTurmaRepository aulaTurmaRepository;
+	private ClasseTurmaRepository classeTurmaRepository;
 
 	@Autowired
-	public AulaService(AulaRepository repository) {
+	public ClasseService(ClasseRepository repository) {
 		super(repository);
-		this.aulaRepository = repository;
+		this.classeRepository = repository;
 	}
 
 	@Override
-	public Aula save(Aula entity) {
+	public Classe save(Classe entity) {
 		if (entity.getId() != null) {
-			List<AulaTurma> turmasAulasBD = aulaTurmaRepository.findByAula(entity);
-			aulaTurmaRepository.deleteAll(turmasAulasBD);
+			List<ClasseTurma> turmasClassesBD = classeTurmaRepository.findByClasse(entity);
+			classeTurmaRepository.deleteAll(turmasClassesBD);
 		}
-		Aula aula = super.save(entity);
-		List<AulaTurma> turmasAula = entity.getTurmasAula();
-		for (AulaTurma aulaTurma : turmasAula) {
-			AulaTurma at = new AulaTurma();
-			at.setAula(aula);
-			at.setTurma(aulaTurma.getTurma());
-			aulaTurmaRepository.save(at);
+		Classe classe = super.save(entity);
+		List<ClasseTurma> turmasClasse = entity.getTurmasClasse();
+		for (ClasseTurma classeTurma : turmasClasse) {
+			ClasseTurma ct = new ClasseTurma();
+			ct.setClasse(classe);
+			ct.setTurma(classeTurma.getTurma());
+			classeTurmaRepository.save(ct);
 		}
-		return aula;
+		return classe;
 	}
 
-	public Aula fromDTO(AulaDTO objDTO) {
+	public Classe fromDTO(ClasseDTO objDTO) {
 		DiaSemana dia = DiaSemana.toEnum(objDTO.getDia());
 		TurnoLetivo turno = TurnoLetivo.toEnum(objDTO.getTurno());
 
@@ -76,20 +75,20 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 		Disciplina disciplina = disciplinaRepository.findById(objDTO.getDisciplina().getId()).get();
 
 		List<Turma> turmas = objDTO.getTurmas();
-		List<AulaTurma> newTurmasAula = new ArrayList<>();
+		List<ClasseTurma> newTurmasClasse = new ArrayList<>();
 
 		for (Turma turma : turmas) {
-			AulaTurma at = new AulaTurma();
-			at.setTurma(turma);
-			newTurmasAula.add(at);
+			ClasseTurma ct = new ClasseTurma();
+			ct.setTurma(turma);
+			newTurmasClasse.add(ct);
 		}
 		
-		return new Aula(objDTO.getId(), getCurrentDate(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(), curso,
-				professor, disciplina, StatusAula.ABERTA, newTurmasAula);
+		return new Classe(objDTO.getId(), getCurrentDate(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(), curso,
+				professor, disciplina, newTurmasClasse);
 	}
 
-	public List<Aula> findAulasAbertasProfessor(Long idProfessor){
-		return aulaRepository.findAulaAbertaProfessor(idProfessor, getCurrentDay());
+	public List<Classe> findClasseDiaProfessor(Long idProfessor){
+		return classeRepository.findClasseDiaProfessor(idProfessor, getCurrentDay());
 	}
 	
 	/**
