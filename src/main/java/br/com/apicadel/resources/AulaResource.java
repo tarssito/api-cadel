@@ -33,8 +33,7 @@ public class AulaResource {
 
 	@Autowired
 	private TurmaService turmaService;
-	
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Aula> find(@PathVariable Long id) {
 		Aula obj = service.find(id);
@@ -76,7 +75,7 @@ public class AulaResource {
 		List<AulaDTO> listDTO = list.stream().map(obj -> new AulaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<AulaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
@@ -84,6 +83,14 @@ public class AulaResource {
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Aula> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<AulaDTO> listDTO = list.map(obj -> new AulaDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
+	}
+
+	@RequestMapping(value = "dashboard", method = RequestMethod.GET)
+	public ResponseEntity<List<AulaDTO>> findAlunosDualList(@RequestParam(value = "idProfessor") Long idProfessor) {
+		List<Aula> list = service.findAulasAbertasProfessor(idProfessor);
+		list.sort(Comparator.comparing(Aula::getData));
+		List<AulaDTO> listDTO = list.stream().map(obj -> new AulaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 }
