@@ -54,7 +54,7 @@ public class Aula implements Serializable {
 		this.status = status.getCodStatus();
 	}
 
-	public Aula(Long id, Classe classe, StatusAula status, List<FrequenciaAluno> frequenciasAlunos) {
+	public Aula(Long id, Date data, Classe classe, StatusAula status, List<FrequenciaAluno> frequenciasAlunos) {
 		super();
 		this.id = id;
 		this.classe = classe;
