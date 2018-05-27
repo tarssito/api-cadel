@@ -21,6 +21,8 @@ import br.com.apicadel.repositories.TurmaRepository;
 @Service
 public class TurmaService extends GenericServiceImpl<Turma, Long> {
 
+	private TurmaRepository turmaRepository;
+	
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -36,6 +38,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 	@Autowired
 	public TurmaService(TurmaRepository repository) {
 		super(repository);
+		this.turmaRepository = repository;
 	}
 
 	@Override
@@ -70,6 +73,10 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 		}
 		return new Turma(objDTO.getId(), objDTO.getSigla(), objDTO.getSemestre(), objDTO.getAno(), objDTO.getCurso(),
 				objDTO.getTurnoLetivo(), objDTO.getDisciplina(), newAlunosTurma);
+	}
+	
+	public List<Turma> findByTurno(String turno) {
+		return turmaRepository.findByTurnoLetivo(turno);
 	}
 
 }
