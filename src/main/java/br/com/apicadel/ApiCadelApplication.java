@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
 import br.com.apicadel.domain.Aula;
+import br.com.apicadel.domain.AulaTurma;
 import br.com.apicadel.domain.Curso;
 import br.com.apicadel.domain.CursoDisciplina;
 import br.com.apicadel.domain.Disciplina;
@@ -25,6 +26,7 @@ import br.com.apicadel.domain.enums.StatusAula;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
 import br.com.apicadel.repositories.AulaRepository;
+import br.com.apicadel.repositories.AulaTurmaRepository;
 import br.com.apicadel.repositories.CursoDisciplinaRepository;
 import br.com.apicadel.repositories.CursoRepository;
 import br.com.apicadel.repositories.DisciplinaRepository;
@@ -37,6 +39,9 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
 	private AulaRepository aulaRepository;
+
+	@Autowired
+	private AulaTurmaRepository aulaTurmaRepository;
 
 	@Autowired
 	private AlunoRepository alunoRepository;
@@ -166,6 +171,9 @@ public class ApiCadelApplication implements CommandLineRunner {
 		alunoRepository.saveAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6, aluno7, aluno8, aluno9,
 				aluno10, aluno11, aluno12));
 
+		/**
+		 * Dump de aula
+		 */
 		LocalDate dataDeInscricao = LocalDate.now();
 		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -196,6 +204,29 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		aulaRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10));
 
+		AulaTurma at1 = new AulaTurma(null, a1, turma1);
+		AulaTurma at2 = new AulaTurma(null, a1, turma2);
+		AulaTurma at3 = new AulaTurma(null, a2, turma1);
+		AulaTurma at4 = new AulaTurma(null, a2, turma2);
+
+		AulaTurma at5 = new AulaTurma(null, a3, turma3);
+		AulaTurma at7 = new AulaTurma(null, a4, turma3);
+
+		AulaTurma at9 = new AulaTurma(null, a5, turma5);
+		AulaTurma at10 = new AulaTurma(null, a6, turma6);
+		AulaTurma at11 = new AulaTurma(null, a5, turma5);
+		AulaTurma at12 = new AulaTurma(null, a6, turma6);
+
+		AulaTurma at13 = new AulaTurma(null, a7, turma13);
+		AulaTurma at14 = new AulaTurma(null, a8, turma13);
+
+		AulaTurma at15 = new AulaTurma(null, a5, turma7);
+		AulaTurma at16 = new AulaTurma(null, a6, turma8);
+		AulaTurma at17 = new AulaTurma(null, a5, turma7);
+		AulaTurma at18 = new AulaTurma(null, a6, turma8);
+
+		aulaTurmaRepository
+				.saveAll(Arrays.asList(at1, at2, at3, at4, at5, at7, at9, at10, at11, at12, at13, at14, at15, at16, at17, at18));
 	}
 
 }

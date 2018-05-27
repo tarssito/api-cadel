@@ -28,7 +28,7 @@ public class AulaTurma implements Serializable {
 	public AulaTurma() {
 	}
 
-	public AulaTurma(Long id, Aula aula, Turma turma, boolean presenca) {
+	public AulaTurma(Long id, Aula aula, Turma turma) {
 		super();
 		this.id = id;
 		this.aula = aula;
