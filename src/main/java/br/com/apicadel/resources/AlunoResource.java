@@ -1,5 +1,6 @@
 package br.com.apicadel.resources;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,21 +57,23 @@ public class AlunoResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<AlunoDTO>> findAll() {
-		List<Aluno> list = service.findAll();
+	public ResponseEntity<List<AlunoDTO>> findAll(
+			@RequestParam(value = "matricula", defaultValue = "") String matricula,
+			@RequestParam(value = "nome", defaultValue = "") String nome) {
+		List<Aluno> list = new ArrayList<>();
+		if (matricula.isEmpty() && nome.isEmpty()) {
+			list = service.findAll();
+		} else {
+			AlunoDTO alunoDTO = new AlunoDTO();
+			alunoDTO.setMatricula(matricula);
+			alunoDTO.setNome(nome);			
+			list = service.search(alunoDTO);
+		}
 		list.sort(Comparator.comparing(Aluno::getNome));
 		List<AlunoDTO> listDTO = list.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ResponseEntity<List<AlunoDTO>> search(@RequestBody AlunoDTO objDTO) {
-		List<Aluno> list = service.search(objDTO);
-		list.sort(Comparator.comparing(Aluno::getNome));
-		List<AlunoDTO> listDTO = list.stream().map(obj -> new AlunoDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
-	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<AlunoDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

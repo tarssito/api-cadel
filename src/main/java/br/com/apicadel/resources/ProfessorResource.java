@@ -1,5 +1,6 @@
 package br.com.apicadel.resources;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,18 +33,18 @@ public class ProfessorResource {
 
 	@Autowired
 	private ProfessorService service;
-	
+
 	@Autowired
 	private DisciplinaService disciplinaService;
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<ProfessorDTO> find(@PathVariable Long id) {
 		Professor obj = service.find(id);
-		for(ProfessorDisciplina pd: obj.getDisciplinasProfessor()) {
+		for (ProfessorDisciplina pd : obj.getDisciplinasProfessor()) {
 			Disciplina disciplina = disciplinaService.find(pd.getDisciplina().getId());
 			obj.getDisciplinas().add(disciplina);
 		}
-		ProfessorDTO objDTO =  new ProfessorDTO(obj);
+		ProfessorDTO objDTO = new ProfessorDTO(obj);
 		return ResponseEntity.ok().body(objDTO);
 	}
 
@@ -69,16 +70,18 @@ public class ProfessorResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ProfessorDTO>> findAll() {
-		List<Professor> list = service.findAll();
-		list.sort(Comparator.comparing(Professor::getNome));
-		List<ProfessorDTO> listDTO = list.stream().map(obj -> new ProfessorDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
-
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ResponseEntity<List<ProfessorDTO>> search(@RequestBody ProfessorDTO objDTO) {
-		List<Professor> list = service.search(objDTO);
+	public ResponseEntity<List<ProfessorDTO>> findAll(
+			@RequestParam(value = "matricula", defaultValue = "") String matricula, 
+			@RequestParam(value = "nome", defaultValue = "") String nome) {
+		List<Professor> list = new ArrayList<>();
+		if (matricula.isEmpty() && nome.isEmpty()) {
+			list = service.findAll();
+		}else {
+			ProfessorDTO prof = new ProfessorDTO();
+			prof.setMatricula(matricula);
+			prof.setNome(nome);
+			list = service.search(prof);
+		}
 		list.sort(Comparator.comparing(Professor::getNome));
 		List<ProfessorDTO> listDTO = list.stream().map(obj -> new ProfessorDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);

@@ -1,5 +1,6 @@
 package br.com.apicadel.resources;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,28 +67,32 @@ public class DisciplinaResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<DisciplinaDTO>> findAll() {
-		List<Disciplina> list = service.findAll();
+	public ResponseEntity<List<DisciplinaDTO>> findAll(
+			@RequestParam(value = "nome", defaultValue = "") String nome,
+			@RequestParam(value = "cargaHoraria", defaultValue = "") Integer cargaHoraria) {
+		List<Disciplina> list = new ArrayList<>();
+		if(nome.isEmpty() && cargaHoraria == null) {
+			list = service.findAll();
+		} else {
+			DisciplinaDTO disciplinaDTO = new DisciplinaDTO();
+			disciplinaDTO.setNome(nome);
+			if(cargaHoraria != null) {
+				disciplinaDTO.setCargaHoraria(cargaHoraria);
+			}			
+			list = service.search(disciplinaDTO);
+		}
 		list.sort(Comparator.comparing(Disciplina::getNome));
 		List<DisciplinaDTO> listDTO = list.stream().map(obj -> new DisciplinaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public ResponseEntity<List<DisciplinaDTO>> search(@RequestBody DisciplinaDTO objDTO) {
-		List<Disciplina> list = service.search(objDTO);
-		list.sort(Comparator.comparing(Disciplina::getNome));
-		List<DisciplinaDTO> listDTO = list.stream().map(obj -> new DisciplinaDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
-	
 	@RequestMapping(value = "/curso", method = RequestMethod.GET)
 	public ResponseEntity<List<Disciplina>> findByCurso(@RequestParam(value = "id") Long idCurso) {
 		List<Disciplina> list = service.findByCurso(idCurso);
 		list.sort(Comparator.comparing(Disciplina::getNome));
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<DisciplinaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
