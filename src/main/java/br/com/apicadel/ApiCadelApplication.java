@@ -173,25 +173,30 @@ public class ApiCadelApplication implements CommandLineRunner {
 		/**
 		 * Dump de classe
 		 */
-		LocalDate dataDeInscricao = LocalDate.now();
-		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-		Classe a1 = new Classe(null, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof1,
+		Classe a1 = new Classe(null, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "18:45", "20:15", "1", "2018", si, prof1,
 				laboratorioDeSoftware);
-		Classe a2 = new Classe(null, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof1,
+		Classe a2 = new Classe(null, DiaSemana.SEGUNDA, TurnoLetivo.NOTURNO, "20:15", "21:50", "1", "2018", si, prof1,
 				laboratorioDeSoftware);
 
-		Classe a3 = new Classe(null, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof4, gestaoProjeto);
-		Classe a4 = new Classe(null, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof4, gestaoProjeto);
+		Classe a3 = new Classe(null, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "18:45", "20:15", "1", "2018", si, prof4,
+				gestaoProjeto);
+		Classe a4 = new Classe(null, DiaSemana.TERCA, TurnoLetivo.NOTURNO, "20:15", "21:50", "1", "2018", si, prof4,
+				gestaoProjeto);
 
-		Classe a5 = new Classe(null, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof2, redes);
-		Classe a6 = new Classe(null, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof2, redes);
+		Classe a5 = new Classe(null, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "18:45", "20:15", "1", "2018", si, prof2,
+				redes);
+		Classe a6 = new Classe(null, DiaSemana.QUARTA, TurnoLetivo.NOTURNO, "20:15", "21:50", "1", "2018", si, prof2,
+				redes);
 
-		Classe a7 = new Classe(null, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof5, ihc);
-		Classe a8 = new Classe(null, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof5, ihc);
+		Classe a7 = new Classe(null, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "18:45", "20:15", "1", "2018", si, prof5,
+				ihc);
+		Classe a8 = new Classe(null, DiaSemana.QUINTA, TurnoLetivo.NOTURNO, "20:15", "21:50", "1", "2018", si, prof5,
+				ihc);
 
-		Classe a9 = new Classe(null, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "18:45", "20:15", si, prof3, sd);
-		Classe a10 = new Classe(null, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "20:15", "21:50", si, prof3, sd);
+		Classe a9 = new Classe(null, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "18:45", "20:15", "1", "2018", si, prof3,
+				sd);
+		Classe a10 = new Classe(null, DiaSemana.SEXTA, TurnoLetivo.NOTURNO, "20:15", "21:50", "1", "2018", si, prof3,
+				sd);
 
 		classeRepository.saveAll(Arrays.asList(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10));
 
@@ -216,8 +221,8 @@ public class ApiCadelApplication implements CommandLineRunner {
 		ClasseTurma at17 = new ClasseTurma(null, a5, turma7);
 		ClasseTurma at18 = new ClasseTurma(null, a6, turma8);
 
-		classeTurmaRepository
-				.saveAll(Arrays.asList(at1, at2, at3, at4, at5, at7, at9, at10, at11, at12, at13, at14, at15, at16, at17, at18));
+		classeTurmaRepository.saveAll(
+				Arrays.asList(at1, at2, at3, at4, at5, at7, at9, at10, at11, at12, at13, at14, at15, at16, at17, at18));
 	}
 
 }

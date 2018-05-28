@@ -27,13 +27,23 @@ public class Classe implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "codigo_dia")
+	@Column(name = "codigo_dia", nullable = false)
 	private int dia;
 
+	@Column(nullable = false)
 	private String turno;
 
+	@Column(nullable = false)
 	private String horaAbertura;
+
+	@Column(nullable = false)
 	private String horaFechamento;
+
+	@Column(nullable = false, length = 1)
+	private String semestre;
+
+	@Column(nullable = false, length = 4)
+	private String ano;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "classe")
@@ -43,41 +53,46 @@ public class Classe implements Serializable {
 	private List<Turma> turmas = new ArrayList<>();
 
 	@ManyToOne
-	@JoinColumn(name = "curso_id")
+	@JoinColumn(name = "curso_id", nullable = false)
 	private Curso curso;
 
 	@ManyToOne
-	@JoinColumn(name = "professor_id")
+	@JoinColumn(name = "professor_id", nullable = false)
 	private Professor professor;
 
 	@ManyToOne
-	@JoinColumn(name = "disciplina_id")
+	@JoinColumn(name = "disciplina_id", nullable = false)
 	private Disciplina disciplina;
 
 	public Classe() {
 	}
 
 	public Classe(Long id, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
-			Curso curso, Professor professor, Disciplina disciplina) {
+			String semestre, String ano, Curso curso, Professor professor, Disciplina disciplina) {
 		super();
 		this.id = id;
 		this.dia = dia.getCodDiaSemana();
 		this.turno = turno.getTurno();
 		this.horaAbertura = horaAbertura;
 		this.horaFechamento = horaFechamento;
+		this.semestre = semestre;
+		this.ano = ano;
 		this.curso = curso;
 		this.professor = professor;
 		this.disciplina = disciplina;
 	}
 
 	public Classe(Long id, DiaSemana dia, TurnoLetivo turno, String horaAbertura, String horaFechamento,
-			Curso curso, Professor professor, Disciplina disciplina, List<ClasseTurma> turmasClasse) {
+			String semestre, String ano, Curso curso, Professor professor, Disciplina disciplina,
+			List<ClasseTurma> turmasClasse) {
 		super();
 		this.id = id;
 		this.dia = dia.getCodDiaSemana();
 		this.turno = turno.getTurno();
 		this.horaAbertura = horaAbertura;
 		this.horaFechamento = horaFechamento;
+		this.semestre = semestre;
+		this.ano = ano;
 		this.curso = curso;
 		this.professor = professor;
 		this.disciplina = disciplina;
@@ -118,6 +133,22 @@ public class Classe implements Serializable {
 
 	public String getHoraFechamento() {
 		return horaFechamento;
+	}
+
+	public String getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
 	}
 
 	public void setHoraFechamento(String horaFechamento) {

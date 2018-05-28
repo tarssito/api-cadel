@@ -81,8 +81,8 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 			newTurmasClasse.add(ct);
 		}
 
-		return new Classe(objDTO.getId(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(), curso,
-				professor, disciplina, newTurmasClasse);
+		return new Classe(objDTO.getId(), dia, turno, objDTO.getHoraAbertura(), objDTO.getHoraFechamento(),
+				objDTO.getSemestre(), objDTO.getAno(), curso, professor, disciplina, newTurmasClasse);
 	}
 
 	public List<Classe> findClasseDiaProfessor(Long idProfessor) {

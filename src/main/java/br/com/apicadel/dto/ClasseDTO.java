@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import br.com.apicadel.domain.Classe;
@@ -20,14 +21,20 @@ public class ClasseDTO implements Serializable {
 	@NotNull(message = "Preenchimento obrigatório")
 	private int dia;
 
-	@NotNull(message = "Preenchimento obrigatório")
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String turno;
 
-	@NotNull(message = "Preenchimento obrigatório")
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String horaAbertura;
 
-	@NotNull(message = "Preenchimento obrigatório")
+	@NotEmpty(message = "Preenchimento obrigatório")
 	private String horaFechamento;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String semestre;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String ano;
 
 	@NotNull(message = "Preenchimento obrigatório")
 	private Curso curso;
@@ -50,6 +57,8 @@ public class ClasseDTO implements Serializable {
 		this.turno = classe.getTurno();
 		this.horaAbertura = classe.getHoraAbertura();
 		this.horaFechamento = classe.getHoraFechamento();
+		this.semestre = classe.getSemestre();
+		this.ano = classe.getAno();
 		this.curso = classe.getCurso();
 		this.professor = classe.getProfessor();
 		this.disciplina = classe.getDisciplina();
@@ -94,6 +103,22 @@ public class ClasseDTO implements Serializable {
 
 	public void setHoraFechamento(String horaFechamento) {
 		this.horaFechamento = horaFechamento;
+	}
+
+	public String getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(String semestre) {
+		this.semestre = semestre;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
 	}
 
 	public Curso getCurso() {
