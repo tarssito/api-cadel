@@ -112,6 +112,20 @@ public class TurmaResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<TurmaDTO>> search(
+			@RequestParam(value = "sigla", defaultValue = "") String sigla,
+			@RequestParam(value = "semestre", defaultValue = "") String semestre,
+			@RequestParam(value = "ano", defaultValue = "") String ano,
+			@RequestParam(value = "idCurso", defaultValue = "") Long idCurso) {
+		
+		List<Turma> list = service.search(sigla, semestre, ano, idCurso);
+		list.sort(Comparator.comparing(Turma::getSigla));
+		List<TurmaDTO> listDTO = list.stream().map(obj -> new TurmaDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDTO);
+	}
+
 	@RequestMapping(value = "filter", method = RequestMethod.GET)
 	public ResponseEntity<List<TurmaDTO>> findByTurno(@RequestParam(value = "turno", defaultValue = "") String turno) {
 		List<Turma> list = service.findByTurno(turno);

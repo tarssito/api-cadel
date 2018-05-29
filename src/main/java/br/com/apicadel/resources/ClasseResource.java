@@ -86,6 +86,20 @@ public class ClasseResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<ClasseDTO>> search(
+			@RequestParam(value = "dia", defaultValue = "") Integer dia,
+			@RequestParam(value = "semestre", defaultValue = "") String semestre,
+			@RequestParam(value = "ano", defaultValue = "") String ano,
+			@RequestParam(value = "idCurso", defaultValue = "") Long idCurso) {
+		
+		List<Classe> list = service.search(dia, semestre, ano, idCurso);
+		list.sort(Comparator.comparing(Classe::getDia));
+		List<ClasseDTO> listDTO = list.stream().map(obj -> new ClasseDTO(obj)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public ResponseEntity<Page<ClasseDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,

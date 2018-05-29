@@ -22,19 +22,19 @@ import br.com.apicadel.repositories.TurmaRepository;
 public class TurmaService extends GenericServiceImpl<Turma, Long> {
 
 	private TurmaRepository turmaRepository;
-	
+
 	@Autowired
 	private CursoRepository cursoRepository;
 
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
-	
+
 	@Autowired
 	private AlunoRepository alunoRepository;
 
 	@Autowired
 	private AlunoTurmaRepository alunoTurmaRepository;
-	
+
 	@Autowired
 	public TurmaService(TurmaRepository repository) {
 		super(repository);
@@ -44,7 +44,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 	@Override
 	public Turma save(Turma entity) {
 		List<AlunoTurma> alunosTurma = entity.getAlunosTurma();
-		if(entity.getId() != null) {
+		if (entity.getId() != null) {
 			List<AlunoTurma> alunos = alunoTurmaRepository.findByTurma(entity);
 			alunoTurmaRepository.deleteAll(alunos);
 		}
@@ -57,7 +57,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 		}
 		return turma;
 	}
-	
+
 	public Turma fromDTO(TurmaDTO objDTO) {
 		Curso curso = cursoRepository.findById(objDTO.getCurso().getId()).get();
 		objDTO.setCurso(curso);
@@ -74,7 +74,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 		return new Turma(objDTO.getId(), objDTO.getSigla(), objDTO.getSemestre(), objDTO.getAno(), objDTO.getCurso(),
 				objDTO.getTurnoLetivo(), objDTO.getDisciplina(), newAlunosTurma);
 	}
-	
+
 	public List<Turma> findByTurno(String turno) {
 		return turmaRepository.findByTurnoLetivo(turno);
 	}
@@ -82,5 +82,9 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 	public List<Turma> findByDisciplina(Long idDisciplina) {
 		Disciplina disciplina = disciplinaRepository.findById(idDisciplina).get();
 		return turmaRepository.findByDisciplina(disciplina);
+	}
+
+	public List<Turma> search(String sigla, String semestre, String ano, Long idCurso) {
+		return turmaRepository.search(sigla, semestre, ano, idCurso);
 	}
 }

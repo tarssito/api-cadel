@@ -28,7 +28,7 @@ public class Classe implements Serializable {
 	private Long id;
 
 	@Column(name = "codigo_dia", nullable = false)
-	private int dia;
+	private Integer dia;
 
 	@Column(nullable = false)
 	private String turno;
@@ -107,11 +107,11 @@ public class Classe implements Serializable {
 		this.id = id;
 	}
 
-	public int getDia() {
+	public Integer getDia() {
 		return dia;
 	}
 
-	public void setDia(int dia) {
+	public void setDia(Integer dia) {
 		this.dia = dia;
 	}
 

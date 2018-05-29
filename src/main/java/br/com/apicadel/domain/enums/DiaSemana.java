@@ -6,7 +6,7 @@ public enum DiaSemana {
 
 	private int codDiaSemana;
 
-	private DiaSemana(int dia) {
+	private DiaSemana(Integer dia) {
 		this.codDiaSemana = dia;
 	}
 

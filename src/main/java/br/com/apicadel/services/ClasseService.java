@@ -89,6 +89,10 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 		return classeRepository.findClasseDiaProfessor(idProfessor, getCurrentDay());
 	}
 
+	public List<Classe> search(Integer dia, String semestre, String ano, Long idCurso) {
+		return classeRepository.search(dia, semestre, ano, idCurso);
+	}
+	
 	/**
 	 * Método que retorna o código do dia da semana, de acordo com a data atual
 	 * 

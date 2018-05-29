@@ -19,7 +19,7 @@ public class ClasseDTO implements Serializable {
 	private Long id;
 
 	@NotNull(message = "Preenchimento obrigatório")
-	private int dia;
+	private Integer dia;
 
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String turno;
@@ -73,11 +73,11 @@ public class ClasseDTO implements Serializable {
 		this.id = id;
 	}
 
-	public int getDia() {
+	public Integer getDia() {
 		return dia;
 	}
 
-	public void setDia(int dia) {
+	public void setDia(Integer dia) {
 		this.dia = dia;
 	}
 
