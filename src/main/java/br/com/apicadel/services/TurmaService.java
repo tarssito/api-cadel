@@ -79,4 +79,8 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 		return turmaRepository.findByTurnoLetivo(turno);
 	}
 
+	public List<Turma> findByDisciplina(Long idDisciplina) {
+		Disciplina disciplina = disciplinaRepository.findById(idDisciplina).get();
+		return turmaRepository.findByDisciplina(disciplina);
+	}
 }

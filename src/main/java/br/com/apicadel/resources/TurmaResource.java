@@ -104,6 +104,14 @@ public class TurmaResource {
 		return ResponseEntity.ok().body(mainObj.toString());
 	}
 
+	@RequestMapping(value = "/disciplina", method = RequestMethod.GET)
+	public ResponseEntity<List<TurmaDTO>> findByDisciplina(@RequestParam(value = "id") Long idDisciplina) {
+		List<Turma> list = service.findByDisciplina(idDisciplina);
+		list.sort(Comparator.comparing(Turma::getSigla));
+		List<TurmaDTO> listDTO = list.stream().map(obj -> new TurmaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+
 	@RequestMapping(value = "filter", method = RequestMethod.GET)
 	public ResponseEntity<List<TurmaDTO>> findByTurno(@RequestParam(value = "turno", defaultValue = "") String turno) {
 		List<Turma> list = service.findByTurno(turno);
