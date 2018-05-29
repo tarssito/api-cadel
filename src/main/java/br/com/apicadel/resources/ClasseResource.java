@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.apicadel.domain.Aluno;
 import br.com.apicadel.domain.Classe;
 import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.dto.ClasseDTO;
 import br.com.apicadel.resources.utils.CodigoMensagem;
+import br.com.apicadel.services.AlunoService;
 import br.com.apicadel.services.ClasseService;
 import br.com.apicadel.services.TurmaService;
 
@@ -34,14 +36,22 @@ public class ClasseResource {
 	@Autowired
 	private TurmaService turmaService;
 
+	@Autowired
+	private AlunoService alunoService;
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Classe> find(@PathVariable Long id) {
 		Classe obj = service.find(id);
 		for (ClasseTurma ct : obj.getTurmasClasse()) {
 			Turma turma = turmaService.find(ct.getTurma().getId());
 			Turma newTurma = new Turma();
+			
 			newTurma.setId(turma.getId());
 			newTurma.setSigla(turma.getSigla());
+			
+			List<Aluno> alunos = alunoService.findByTurma(turma);
+			newTurma.setAlunos(alunos);
+			
 			obj.getTurmas().add(newTurma);
 		}
 		return ResponseEntity.ok().body(obj);

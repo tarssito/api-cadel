@@ -1,9 +1,6 @@
 package br.com.apicadel;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
+import br.com.apicadel.domain.AlunoTurma;
 import br.com.apicadel.domain.Classe;
 import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Curso;
@@ -24,6 +22,7 @@ import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.Perfil;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
+import br.com.apicadel.repositories.AlunoTurmaRepository;
 import br.com.apicadel.repositories.ClasseRepository;
 import br.com.apicadel.repositories.ClasseTurmaRepository;
 import br.com.apicadel.repositories.CursoDisciplinaRepository;
@@ -62,6 +61,9 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProfessorDisciplinaRepository professorDisciplinaRepository;
+
+	@Autowired
+	private AlunoTurmaRepository alunoTurmaRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCadelApplication.class, args);
@@ -169,6 +171,16 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		alunoRepository.saveAll(Arrays.asList(aluno1, aluno2, aluno3, aluno4, aluno5, aluno6, aluno7, aluno8, aluno9,
 				aluno10, aluno11, aluno12));
+
+		AlunoTurma alunoTurma1 = new AlunoTurma(null, aluno1, turma1);
+		AlunoTurma alunoTurma2 = new AlunoTurma(null, aluno2, turma1);
+		AlunoTurma alunoTurma3 = new AlunoTurma(null, aluno3, turma1);
+		AlunoTurma alunoTurma4 = new AlunoTurma(null, aluno4, turma1);
+		AlunoTurma alunoTurma5 = new AlunoTurma(null, aluno5, turma1);
+		AlunoTurma alunoTurma6 = new AlunoTurma(null, aluno6, turma1);
+
+		alunoTurmaRepository
+				.saveAll(Arrays.asList(alunoTurma1, alunoTurma2, alunoTurma3, alunoTurma4, alunoTurma5, alunoTurma6));
 
 		/**
 		 * Dump de classe
