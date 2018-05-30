@@ -67,10 +67,9 @@ public class TurmaResource {
 		return ResponseEntity.ok().body(CodigoMensagem.COD_INSERT_SUCCESS.getCodigoMsg());
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<String> update(@Valid @RequestBody TurmaDTO objDTO, @PathVariable Long id) {
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<String> update(@Valid @RequestBody TurmaDTO objDTO) {
 		Turma obj = service.fromDTO(objDTO);
-		obj.setId(id);
 		service.save(obj);
 		return ResponseEntity.ok().body(CodigoMensagem.COD_UPDATE_SUCCESS.getCodigoMsg());
 	}

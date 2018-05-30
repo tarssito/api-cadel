@@ -55,10 +55,9 @@ public class ProfessorResource {
 		return ResponseEntity.ok().body(CodigoMensagem.COD_INSERT_SUCCESS.getCodigoMsg());
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<String> update(@Valid @RequestBody ProfessorDTO objDTO, @PathVariable Long id) {
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<String> update(@Valid @RequestBody ProfessorDTO objDTO) {
 		Professor obj = service.fromDTO(objDTO);
-		obj.setId(id);
 		service.save(obj);
 		return ResponseEntity.ok().body(CodigoMensagem.COD_UPDATE_SUCCESS.getCodigoMsg());
 	}
