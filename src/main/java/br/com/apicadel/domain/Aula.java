@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.StatusAula;
 
 @Entity
@@ -133,6 +134,29 @@ public class Aula implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append("Aula, número: 1");
+		//builder.append(getId());
+		builder.append(", Data: 30/05/2018");
+		//builder.append(getData());
+		builder.append(", Dia: Quarta");
+		//builder.append(DiaSemana.toEnum(getClasse().getDia()));
+		builder.append(", Disciplina: Lab. de Software");
+		//builder.append(getClasse().getDisciplina().getNome());
+		//builder.append(". Caro Professor: ");
+		//builder.append(getClasse().getProfessor().getNome());
+		builder.append(", Fique atento ao horário de fechamento da aula.");
+		builder.append(" Início: 18:30");
+		//builder.append(getClasse().getHoraAbertura());
+		builder.append(", Término: 20:30");
+		//builder.append(getClasse().getHoraFechamento());
+
+		return builder.toString();
 	}
 
 }

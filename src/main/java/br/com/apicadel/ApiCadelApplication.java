@@ -1,6 +1,9 @@
 package br.com.apicadel;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.apicadel.domain.Aluno;
 import br.com.apicadel.domain.AlunoTurma;
+import br.com.apicadel.domain.Aula;
 import br.com.apicadel.domain.Classe;
 import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Curso;
@@ -20,6 +24,7 @@ import br.com.apicadel.domain.ProfessorDisciplina;
 import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.Perfil;
+import br.com.apicadel.domain.enums.StatusAula;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.repositories.AlunoRepository;
 import br.com.apicadel.repositories.AlunoTurmaRepository;
@@ -31,6 +36,7 @@ import br.com.apicadel.repositories.DisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorDisciplinaRepository;
 import br.com.apicadel.repositories.ProfessorRepository;
 import br.com.apicadel.repositories.TurmaRepository;
+import br.com.apicadel.services.EmailService;
 
 @SpringBootApplication
 public class ApiCadelApplication implements CommandLineRunner {
@@ -65,6 +71,9 @@ public class ApiCadelApplication implements CommandLineRunner {
 	@Autowired
 	private AlunoTurmaRepository alunoTurmaRepository;
 
+	@Autowired
+	private EmailService emailService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCadelApplication.class, args);
 	}
@@ -235,6 +244,12 @@ public class ApiCadelApplication implements CommandLineRunner {
 
 		classeTurmaRepository.saveAll(
 				Arrays.asList(at1, at2, at3, at4, at5, at7, at9, at10, at11, at12, at13, at14, at15, at16, at17, at18));
+		
+		LocalDate dataDeInscricao = LocalDate.now();
+		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		Aula aula1 = new Aula(null, data, a1, StatusAula.ABERTA);
+		//emailService.sendOrderConfirmationEmail(aula1);
 	}
 
 }
