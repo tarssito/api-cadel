@@ -22,7 +22,7 @@ public class AulaResource {
 	public ResponseEntity<String> insert(@RequestBody Aula obj) {
 		obj = service.fromInsertAula(obj);
 		service.save(obj);
-		return ResponseEntity.ok().body(CodigoMensagem.COD_INSERT_SUCCESS.getCodigoMsg());
+		return ResponseEntity.ok().body(obj.getId().toString());
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
