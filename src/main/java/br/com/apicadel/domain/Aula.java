@@ -17,7 +17,6 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.StatusAula;
 
 @Entity
@@ -37,6 +36,8 @@ public class Aula implements Serializable {
 
 	private int status;
 
+	private String registro;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "aula")
 	private List<FrequenciaAluno> frequenciasAlunos = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Aula implements Serializable {
 	public Aula() {
 	}
 
-	public Aula(Long id, Date data, Classe classe, StatusAula status) {
+	public Aula(Long id, Date data, Classe classe, StatusAula status, String registro) {
 		super();
 		this.id = id;
 		this.data = data;
@@ -55,11 +56,12 @@ public class Aula implements Serializable {
 		this.status = status.getCodStatus();
 	}
 
-	public Aula(Long id, Date data, Classe classe, StatusAula status, List<FrequenciaAluno> frequenciasAlunos) {
+	public Aula(Long id, Date data, Classe classe, StatusAula status, String registro, List<FrequenciaAluno> frequenciasAlunos) {
 		super();
 		this.id = id;
 		this.classe = classe;
 		this.status = status.getCodStatus();
+		this.registro = registro;
 		this.frequenciasAlunos = frequenciasAlunos;
 	}
 
@@ -93,6 +95,14 @@ public class Aula implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getRegistro() {
+		return registro;
+	}
+
+	public void setRegistro(String registro) {
+		this.registro = registro;
 	}
 
 	public List<FrequenciaAluno> getFrequenciasAlunos() {
@@ -141,20 +151,20 @@ public class Aula implements Serializable {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append("Aula, número: 1");
-		//builder.append(getId());
+		// builder.append(getId());
 		builder.append(", Data: 30/05/2018");
-		//builder.append(getData());
+		// builder.append(getData());
 		builder.append(", Dia: Quarta");
-		//builder.append(DiaSemana.toEnum(getClasse().getDia()));
+		// builder.append(DiaSemana.toEnum(getClasse().getDia()));
 		builder.append(", Disciplina: Lab. de Software");
-		//builder.append(getClasse().getDisciplina().getNome());
-		//builder.append(". Caro Professor: ");
-		//builder.append(getClasse().getProfessor().getNome());
+		// builder.append(getClasse().getDisciplina().getNome());
+		// builder.append(". Caro Professor: ");
+		// builder.append(getClasse().getProfessor().getNome());
 		builder.append(", Fique atento ao horário de fechamento da aula.");
 		builder.append(" Início: 18:30");
-		//builder.append(getClasse().getHoraAbertura());
+		// builder.append(getClasse().getHoraAbertura());
 		builder.append(", Término: 20:30");
-		//builder.append(getClasse().getHoraFechamento());
+		// builder.append(getClasse().getHoraFechamento());
 
 		return builder.toString();
 	}

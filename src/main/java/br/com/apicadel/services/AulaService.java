@@ -53,7 +53,7 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 	
 	public Aula fromInsertAula(Aula aula) {
 		Classe classe = classeRepository.findById(aula.getClasse().getId()).get();
-		return new Aula(aula.getId(), getCurrentDate(), classe, StatusAula.ABERTA);
+		return new Aula(aula.getId(), getCurrentDate(), classe, StatusAula.ABERTA, aula.getRegistro());
 	}
 		
 	public Aula fromUpdateAula(Aula aula) {
@@ -67,7 +67,7 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 			frequencia.setPresenca(aluno.getPresenca());
 			newFrequenciasAluno.add(frequencia);
 		}
-		return new Aula(aula.getId(), getCurrentDate(), classe, StatusAula.FECHADA, newFrequenciasAluno);
+		return new Aula(aula.getId(), getCurrentDate(), classe, StatusAula.FECHADA, aula.getRegistro(), newFrequenciasAluno);
 	}
 	
 	/**

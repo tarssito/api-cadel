@@ -19,9 +19,12 @@ public interface TurmaRepository extends GenericRepository<Turma, Long> {
 	@Transactional(readOnly = true)
 	public List<Turma> findByDisciplina(Disciplina disciplina);
 
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	@Query("select t from Turma t WHERE (t.sigla LIKE %:sigla%) " + "	AND (t.semestre LIKE %:semestre%) "
-			+ " AND (t.ano LIKE %:ano%) " + " AND (t.curso.id = :idCurso OR :idCurso IS NULL) ")
+			+ " AND (t.ano LIKE %:ano%) " + " AND (t.turnoLetivo LIKE %:turno%) "
+			+ " AND (t.curso.id = :idCurso OR :idCurso IS NULL) "
+			+ " AND (t.disciplina.id = :idDisciplina OR :idDisciplina IS NULL) ")
 	public List<Turma> search(@Param("sigla") String sigla, @Param("semestre") String semestre,
-			@Param("ano") String ano, @Param("idCurso") Long idCurso);
+			@Param("ano") String ano, @Param("turno") String turno, @Param("idCurso") Long idCurso,
+			@Param("idDisciplina") Long idDisciplina);
 }

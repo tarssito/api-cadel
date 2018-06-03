@@ -14,13 +14,11 @@ public interface ProfessorRepository extends GenericRepository<Professor, Long> 
 
 	@Query("from Professor p WHERE p.matricula = :matricula")
 	public Professor authenticator(@Param("matricula") String matricula);
-	
-	@Transactional(readOnly=true)
-	public List<Professor> findByNomeContaining(String nome);
-	
-	@Transactional(readOnly=true)
-	public List<Professor> findByMatriculaContaining(String matricula);
-	
-	@Transactional(readOnly=true)
-	public List<Professor> findByMatriculaContainingAndNomeContaining(String matricula, String nome);
+
+	@Transactional(readOnly = true)
+	@Query("select distinct p from Professor p left join p.disciplinasProfessor dp WHERE (p.nome LIKE %:nome%) "
+			+ "	AND (p.matricula LIKE %:matricula%) "
+			+ " AND (dp.disciplina.id = :idDisciplina OR :idDisciplina IS NULL) ")
+	public List<Professor> search(@Param("nome") String nome, @Param("matricula") String matricula,
+			@Param("idDisciplina") Long idDisciplina);
 }

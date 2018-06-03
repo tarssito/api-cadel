@@ -1,6 +1,5 @@
 package br.com.apicadel.resources;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,20 +68,23 @@ public class ProfessorResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<ProfessorDTO>> findAll(
-			@RequestParam(value = "matricula", defaultValue = "") String matricula, 
-			@RequestParam(value = "nome", defaultValue = "") String nome) {
-		List<Professor> list = new ArrayList<>();
-		if (matricula.isEmpty() && nome.isEmpty()) {
-			list = service.findAll();
-		}else {
-			ProfessorDTO prof = new ProfessorDTO();
-			prof.setMatricula(matricula);
-			prof.setNome(nome);
-			list = service.search(prof);
-		}
+	public ResponseEntity<List<ProfessorDTO>> findAll() {
+		List<Professor> list = service.findAll();		
 		list.sort(Comparator.comparing(Professor::getNome));
 		List<ProfessorDTO> listDTO = list.stream().map(obj -> new ProfessorDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
+	}
+
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<ProfessorDTO>> search(
+			@RequestParam(value = "matricula", defaultValue = "") String matricula,
+			@RequestParam(value = "nome", defaultValue = "") String nome,
+			@RequestParam(value = "idDisciplina", defaultValue = "") Long idDisciplina) {
+		
+		List<Professor> list = service.search(nome, matricula, idDisciplina);
+		list.sort(Comparator.comparing(Professor::getNome));
+		List<ProfessorDTO> listDTO = list.stream().map(obj -> new ProfessorDTO(obj)).collect(Collectors.toList());
+		
 		return ResponseEntity.ok().body(listDTO);
 	}
 

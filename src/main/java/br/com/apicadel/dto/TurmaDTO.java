@@ -47,6 +47,8 @@ public class TurmaDTO implements Serializable {
 		this.semestre = turma.getSemestre();
 		this.ano = turma.getAno();
 		this.turnoLetivo = turma.getTurnoLetivo();
+		this.curso = turma.getCurso();
+		this.disciplina = turma.getDisciplina();
 	}
 
 	public Long getId() {

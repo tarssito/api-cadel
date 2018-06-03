@@ -84,7 +84,7 @@ public class TurmaService extends GenericServiceImpl<Turma, Long> {
 		return turmaRepository.findByDisciplina(disciplina);
 	}
 
-	public List<Turma> search(String sigla, String semestre, String ano, Long idCurso) {
-		return turmaRepository.search(sigla, semestre, ano, idCurso);
+	public List<Turma> search(String sigla, String semestre, String ano, String turno, Long idCurso, Long idDisciplina) {
+		return turmaRepository.search(sigla, semestre, ano, turno, idCurso, idDisciplina);
 	}
 }

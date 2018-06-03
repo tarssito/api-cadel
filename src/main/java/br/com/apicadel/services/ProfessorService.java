@@ -26,13 +26,13 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 
 	@Autowired
 	private ProfessorDisciplinaRepository professorDisciplinaRepository;
-	
+
 	@Autowired
 	private DisciplinaRepository disciplinaRepository;
-	
+
 	@Autowired
 	private CursoRepository cursoRepository;
-	
+
 	@Autowired
 	public ProfessorService(ProfessorRepository repository) {
 		super(repository);
@@ -42,11 +42,11 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 	@Override
 	public Professor save(Professor entity) {
 		List<ProfessorDisciplina> disciplinasProfessor = entity.getDisciplinasProfessor();
-		if(entity.getId() != null) {
+		if (entity.getId() != null) {
 			List<ProfessorDisciplina> disciplinas = professorDisciplinaRepository.findByProfessor(entity);
 			professorDisciplinaRepository.deleteAll(disciplinas);
 		}
-		Professor professor = super.save(entity);		
+		Professor professor = super.save(entity);
 		for (ProfessorDisciplina professorDisciplina : disciplinasProfessor) {
 			ProfessorDisciplina pd = new ProfessorDisciplina();
 			pd.setDisciplina(professorDisciplina.getDisciplina());
@@ -55,10 +55,10 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 		}
 		return professor;
 	}
-	
+
 	public Professor fromDTO(ProfessorDTO objDTO) {
 		Curso curso = cursoRepository.findById(objDTO.getCurso().getId()).get();
-		
+
 		List<Disciplina> disciplinas = objDTO.getDisciplinas();
 		List<ProfessorDisciplina> newDisciplinasProfessor = new ArrayList<>();
 		for (Disciplina disciplina : disciplinas) {
@@ -84,15 +84,8 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 		return null;
 	}
 
-	public List<Professor> search(ProfessorDTO professor) {
-		if (professor.getNome() != null && professor.getMatricula() != null) {
-			return professorRepository.findByMatriculaContainingAndNomeContaining(professor.getMatricula(),
-					professor.getNome());
-		} else if (professor.getNome() != null && professor.getMatricula() == null) {
-			return professorRepository.findByNomeContaining(professor.getNome());
-		} else {
-			return professorRepository.findByMatriculaContaining(professor.getMatricula());
-		}
+	public List<Professor> search(String nome, String matricula, Long idDisciplina) {
+		return professorRepository.search(nome, matricula, idDisciplina);
 	}
 
 }
