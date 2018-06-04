@@ -20,6 +20,6 @@ Api Restful do projeto de Caderneta eletrônica
 https://github.com/tarssito/api-cadel.git
 ```
 
-**2. Criar base de dados no MySQL**
-```bash
-create database cadel_bd
+**2. Iniciar serviço do MySQL**
+
+**3. Executar script cadel_bd.sql**
