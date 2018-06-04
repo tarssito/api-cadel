@@ -37,9 +37,9 @@ public class AulaResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<String> insert(@RequestBody Aula obj) {
-		obj = service.fromInsertAula(obj);
-		service.save(obj);
-		return ResponseEntity.ok().body(obj.getId().toString());
+		Aula aula = service.fromInsertAula(obj);
+		service.save(aula);
+		return ResponseEntity.ok().body(aula.getId().toString());
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
@@ -81,9 +81,10 @@ public class AulaResource {
 			@RequestParam(value = "semestre", defaultValue = "") String semestre,
 			@RequestParam(value = "ano", defaultValue = "") String ano,
 			@RequestParam(value = "idCurso", defaultValue = "") Long idCurso,
-			@RequestParam(value = "idDisciplina", defaultValue = "") Long idDisciplina) {
+			@RequestParam(value = "idDisciplina", defaultValue = "") Long idDisciplina,
+			@RequestParam(value = "idProfessor", defaultValue = "") Long idProfessor) {
 		
-		List<Aula> list = service.search(semestre, ano, idCurso, idDisciplina);
+		List<Aula> list = service.search(semestre, ano, idCurso, idDisciplina, idProfessor);
 		list.sort(Comparator.comparing(Aula::getData));
 		
 		return ResponseEntity.ok().body(list);

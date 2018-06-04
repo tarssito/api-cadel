@@ -15,8 +15,9 @@ public interface AulaRepository extends GenericRepository<Aula, Long> {
 	@Transactional(readOnly = true)
 	@Query("select distinct a from Aula a inner join a.classe c inner join a.frequenciasAlunos f WHERE (c.semestre LIKE %:semestre%) "
 			+ "	AND (c.ano LIKE %:ano%) " + " AND (c.curso.id = :idCurso OR :idCurso IS NULL) "
-			+ " AND (c.disciplina.id = :idDisciplina OR :idDisciplina IS NULL)")
+			+ " AND (c.disciplina.id = :idDisciplina OR :idDisciplina IS NULL) "
+			+ " AND (c.professor.id = :idProfessor OR :idProfessor IS NULL) ")
 	List<Aula> search(@Param("semestre") String semestre, @Param("ano") String ano, @Param("idCurso") Long idCurso,
-			@Param("idDisciplina") Long idDisciplina);
+			@Param("idDisciplina") Long idDisciplina, @Param("idProfessor") Long idProfessor);
 
 }
