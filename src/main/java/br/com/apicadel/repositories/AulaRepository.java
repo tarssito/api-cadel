@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.apicadel.domain.Aula;
+import br.com.apicadel.domain.Classe;
 
 @Repository
 public interface AulaRepository extends GenericRepository<Aula, Long> {
@@ -19,5 +20,9 @@ public interface AulaRepository extends GenericRepository<Aula, Long> {
 			+ " AND (c.professor.id = :idProfessor OR :idProfessor IS NULL) ")
 	List<Aula> search(@Param("semestre") String semestre, @Param("ano") String ano, @Param("idCurso") Long idCurso,
 			@Param("idDisciplina") Long idDisciplina, @Param("idProfessor") Long idProfessor);
+
+	@Transactional(readOnly = true)
+	@Query("select a from Aula a WHERE a.status = 2 and a.classe = :classe")
+	public Aula findByClasse(@Param("classe") Classe classe);
 
 }
