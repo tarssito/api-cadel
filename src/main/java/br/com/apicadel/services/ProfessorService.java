@@ -73,7 +73,7 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 			newDisciplinasProfessor.add(professorDisciplina);
 		}
 		return new Professor(objDTO.getId(), objDTO.getNome(), objDTO.getCpf(), objDTO.getMatricula(),
-				objDTO.getEmail(), objDTO.getSexo(), true, objDTO.getNotificacaoEmail(), Perfil.ADMIN,
+				objDTO.getEmail(), objDTO.getSexo(), true, objDTO.getNotificacaoEmail(), Perfil.PROFESSOR,
 				BCrypt.hashpw(objDTO.getCpf(), BCrypt.gensalt()), newDisciplinasProfessor, curso);
 	}
 
