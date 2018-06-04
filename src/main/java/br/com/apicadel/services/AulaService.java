@@ -23,6 +23,9 @@ import br.com.apicadel.repositories.FrequenciaAlunoRepository;
 public class AulaService extends GenericServiceImpl<Aula, Long> {
 	
 	@Autowired
+	private AulaRepository aulaRepository;
+	
+	@Autowired
 	private FrequenciaAlunoRepository frequenciaAlunoRepository;
 	
 	@Autowired
@@ -34,6 +37,7 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 	@Autowired
 	public AulaService(AulaRepository repository) {
 		super(repository);
+		this.aulaRepository = repository;
 	}
 
 	@Override
@@ -79,6 +83,10 @@ public class AulaService extends GenericServiceImpl<Aula, Long> {
 		LocalDate dataDeInscricao = LocalDate.now();
 		Date data = Date.from(dataDeInscricao.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		return data;
+	}
+
+	public List<Aula> search(String semestre, String ano, Long idCurso, Long idDisciplina) {
+		return aulaRepository.search(semestre, ano, idCurso, idDisciplina);
 	}
 	
 }
