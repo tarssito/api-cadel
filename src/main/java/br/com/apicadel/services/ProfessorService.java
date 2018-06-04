@@ -40,6 +40,11 @@ public class ProfessorService extends GenericServiceImpl<Professor, Long> {
 	}
 
 	@Override
+	public List<Professor> findAll() {
+		return professorRepository.findProfessores();
+	}
+	
+	@Override
 	public Professor save(Professor entity) {
 		List<ProfessorDisciplina> disciplinasProfessor = entity.getDisciplinasProfessor();
 		if (entity.getId() != null) {

@@ -12,7 +12,8 @@ import br.com.apicadel.domain.Classe;
 @Repository
 public interface ClasseRepository extends GenericRepository<Classe, Long> {
 
-	@Query("select c from Classe c where c.professor.id = :idProfessor and c.dia = :dia")
+	@Query("select c from Classe c where c.professor.id = :idProfessor and c.dia = :dia"
+			+ " AND c.id not in (select a from Aula a where a.status = 2) ")
 	public List<Classe> findClasseDiaProfessor(@Param("idProfessor") Long idProfessor, @Param("dia") int dia);
 
 	@Transactional(readOnly = true)

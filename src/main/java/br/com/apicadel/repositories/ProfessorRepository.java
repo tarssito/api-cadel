@@ -16,9 +16,14 @@ public interface ProfessorRepository extends GenericRepository<Professor, Long> 
 	public Professor authenticator(@Param("matricula") String matricula);
 
 	@Transactional(readOnly = true)
+	@Query("select p from Professor p WHERE p.perfil = 2")
+	public List<Professor> findProfessores();
+	
+	@Transactional(readOnly = true)
 	@Query("select distinct p from Professor p left join p.disciplinasProfessor dp WHERE (p.nome LIKE %:nome%) "
 			+ "	AND (p.matricula LIKE %:matricula%) "
-			+ " AND (dp.disciplina.id = :idDisciplina OR :idDisciplina IS NULL) ")
+			+ " AND (dp.disciplina.id = :idDisciplina OR :idDisciplina IS NULL) "
+			+ "	AND p.perfil = 2")
 	public List<Professor> search(@Param("nome") String nome, @Param("matricula") String matricula,
 			@Param("idDisciplina") Long idDisciplina);
 }
