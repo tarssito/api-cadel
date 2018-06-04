@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.apicadel.domain.Aula;
 import br.com.apicadel.domain.Classe;
 import br.com.apicadel.domain.ClasseTurma;
 import br.com.apicadel.domain.Curso;
@@ -18,6 +19,7 @@ import br.com.apicadel.domain.Turma;
 import br.com.apicadel.domain.enums.DiaSemana;
 import br.com.apicadel.domain.enums.TurnoLetivo;
 import br.com.apicadel.dto.ClasseDTO;
+import br.com.apicadel.repositories.AulaRepository;
 import br.com.apicadel.repositories.ClasseRepository;
 import br.com.apicadel.repositories.ClasseTurmaRepository;
 import br.com.apicadel.repositories.CursoRepository;
@@ -29,6 +31,9 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 
 	private ClasseRepository classeRepository;
 
+	@Autowired
+	private AulaRepository aulaRepository;
+	
 	@Autowired
 	private CursoRepository cursoRepository;
 
@@ -86,7 +91,15 @@ public class ClasseService extends GenericServiceImpl<Classe, Long> {
 	}
 
 	public List<Classe> findClasseDiaProfessor(Long idProfessor) {
-		return classeRepository.findClasseDiaProfessor(idProfessor, getCurrentDay());
+		List<Classe> classes = classeRepository.findClasseDiaProfessor(idProfessor, getCurrentDay());
+		List<Classe> classesCpy = new ArrayList<>();
+		for (Classe classe : classes) {
+			Aula aula = aulaRepository.findByClasse(classe);
+			if(aula == null) {
+				classesCpy.add(classe);
+			}
+		}
+		return classesCpy;
 	}
 
 	public List<Classe> search(Integer dia, String semestre, String ano, Long idCurso) {
